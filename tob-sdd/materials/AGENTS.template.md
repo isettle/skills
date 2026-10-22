@@ -56,7 +56,7 @@
 
 **硬性门禁（违反者不得进入下一阶段）**：
 
-- **GI intent 门禁**：`intent.md` MUST 先于 `/speckit-constitution`（首建）与 `/speckit-specify` 编写，两段齐过才允许进入下一流程：① `specs/NNN-*/intent.md` 四段齐备非空（需求说明/需求痛点/需求草稿/泳道图），痛点段无代价数字、泳道图画不出主流程的＝视为未想清楚；② 四段有基本内容后 MUST 跑 `grill-with-docs`（mattpocock/skills，本机等价执行体 `grill-me`）逐轮对抗拷问至 frontier 清空，决定与术语表回写 intent.md「拷问记录」段。spec 定稿后 intent.md 冻结为溯源快照，需求变化走回写三分类改 spec，不回改 intent.md。**目录落位**：先手建 `specs/NNN-<slug>/` 放 intent.md，调 `/speckit-specify` 时 MUST 显式提供该 `SPECIFY_FEATURE_DIRECTORY`（官方支持），否则会另生成新目录造成双份。
+- **GI intent 门禁**：`intent.md` MUST 先于 `/speckit-constitution`（首建）与 `/speckit-specify` 编写，两段齐过才允许进入下一流程：① `specs/NNN-*/intent.md` 四段齐备非空（需求说明/需求痛点/需求草稿/泳道图），痛点段无代价数字、泳道图画不出主流程的＝视为未想清楚；② 四段有基本内容后 MUST 跑 `grill-with-docs` 套件（= `grilling` 逐轮对抗拷问 + `domain-modeling` 边问边写 ADR/术语表；上游 mattpocock/skills 原样 vendored 于本包 `tob-sdd/skills/`；Hermes 单代理执行也可用强化等价体 `grill-me`，产出面相同）至 frontier 清空，决定与术语表回写 intent.md「拷问记录」段。spec 定稿后 intent.md 冻结为溯源快照，需求变化走回写三分类改 spec，不回改 intent.md。**目录落位**：先手建 `specs/NNN-<slug>/` 放 intent.md，调 `/speckit-specify` 时 MUST 显式提供该 `SPECIFY_FEATURE_DIRECTORY`（官方支持），否则会另生成新目录造成双份。
 - **G0' clarify 门禁**：进入 `/speckit-plan` 前 MUST 跑过 `/speckit-clarify`——spec 中 `[NEEDS CLARIFICATION]` 与原型评审产生的开放问题全部清零或已列待拍板清单并经 Owner 裁决；未过不得进 plan。
 - **G1 原型门禁**：进入 `/speckit-plan` 前，必须验证 `PREVIEW.md` 映射表已覆盖 spec 中所有 US（每个 US 至少有一个原型页面）；缺原型不得进入 plan，更不得进入实现。验证命令：`grep "^### User Story" specs/NNN-*/spec.md` 提取 US 列表，比对 `PREVIEW.md` 页面↔spec 溯源映射表。
 - **G2 文档完整性门禁**：进入 `/speckit-implement` 前，模块必须备齐六件套：`spec.md` + `plan.md` + `tasks.md` + `data-model.md` + `contracts/api.md` + `research.md`（缺任何一件不得开工写码）。

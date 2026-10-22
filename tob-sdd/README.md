@@ -17,7 +17,10 @@ sdd-team-pack/
 └── skills/           # AI 代理技能（SKILL.md 通用格式）
     ├── spec-kit-sdd/          # SDD 全流程执行经验（各阶段 pattern + 踩坑）
     ├── sdd-speckit-research/  # spec-kit 官方结构已验证事实（答规范问题先查它）
-    ├── grill-me/              # GI 门禁第二段：需求对抗拷问（等价 grill-with-docs）
+    ├── grill-with-docs/       # GI 门禁第二段入口（vendored：mattpocock/skills 组合层）
+    ├── grilling/              # vendored：frontier 轮次拷问机制
+    ├── domain-modeling/       # vendored：GLOSSARY/ADR 随拷问沉淀（含两个 FORMAT 附件）
+    ├── grill-me/              # Hermes 强化等价体（可选执行体，吸收 grilling 机制）
     └── shadcn-admin-frontend/ # React+shadcn-admin 前端搭建铁律与 CN 网络配方
 ```
 
@@ -51,6 +54,8 @@ SKILL.md 与 Claude Code 的 Agent Skills 格式相同，目录名即技能名�
 cp -R skills/tob-sdd/skills/* ~/.claude/skills/
 ```
 
+> 注意：`grill-with-docs` 是上游 mattpocock 的**组合层**（仅 247 字节，正文一句「调 grilling + domain-modeling 两个 Skill」，且标 `disable-model-invocation: true`），依赖 Claude Code 的 Skill 工具链动态编排——三个目录必须一起拷，单独拷它不会生效。
+
 ### Codex / Qoder / Cursor 用户
 
 无自动加载机制，但物料层的 `AGENTS.md`（Qoder/Codex 原生识别）+ 各 spec 目录文件已覆盖流程约束；把 `materials/` 拷进仓库即可，agent 读 AGENTS.md 就按本流程干活。
@@ -58,6 +63,10 @@ cp -R skills/tob-sdd/skills/* ~/.claude/skills/
 ## 与 /speckit-* 斜杠命令的关系
 
 `/speckit-specify` 等命令由 spec-kit CLI 在每个项目里生成（`specify init --here --integration hermes`），**不在本包内**。本包负责的是：命令之外的流程约束（intent/GI、原型门禁、回写三分类）+ 执行经验（skills/）。
+
+## Vendored 上游技能（attribution）
+
+`grill-with-docs/`、`grilling/`、`domain-modeling/` 为 [mattpocock/skills](https://github.com/mattpocock/skills)（main 分支）原样照抄，2026-10-22 经 GitHub contents API 逐文件 git-blob SHA 校验一致；含各自 `agents/openai.yaml`。上游更新时重新照抄并复核 SHA，不做本地魔改——魔改请改名另立。
 
 ## 维护约定
 
@@ -70,4 +79,4 @@ cp -R skills/tob-sdd/skills/* ~/.claude/skills/
 
 - `intent.md` 拼写（英文习惯 intent/intend）与 GI 门禁命名已按 2026-10-22 拍板定稿。
 - G0'（clarify）与 G2'（checklist）在 AGENTS 模板中标【待复核】，团队试用后定去留。
-- `grill-me` 为 mattpocock `grill-with-docs` 的本机等价执行体；若团队引入上游原 skill，替换 skills/grill-me 并把 intent 模板引用改指 grill-with-docs。
+- GI 门禁第二段的拷问执行体：Claude Code 用 vendored 上游套件（`grill-with-docs`+`grilling`+`domain-modeling`，原样照抄、SHA 校验一致）；Hermes 用 `grill-me`（本机强化版，frontier 机制来自上游 grilling，产出面=轮次+ADR+术语表，与 intent.md §5 对平）。两者产出物相同，选哪个看 agent，不用纠结。
