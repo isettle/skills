@@ -27,12 +27,12 @@ mechanic from mattpocock/skills' `grilling`.
 - Before complex work: auth flows, schema changes, migrations, payments
 - A plan has unresolved decisions or seems vague
 - Before `subagent-driven-development` decomposition
-- SDD flow GI gate stage ②: once `specs/NNN-*/intent.md` four sections have basic content, grill the requirement until frontier is empty; write decisions (ADR-style) + glossary back into intent.md §5 拷问记录 (glossary feeds Key Entities confirmation). Upstream `mattpocock/skills` has `grill-with-docs` (= grilling + domain-modeling, docs-as-you-go); this skill is the local equivalent.
+- SDD flow GI gate stage ②: once `specs/NNN-*/intent.md` four sections have basic content, grill the requirement until frontier is empty; write decisions (ADR-style) + glossary back into intent.md §5 拷问记录 (glossary feeds Key Entities confirmation). Pair with skill `domain-modeling` (GLOSSARY/ADR written as you go) for the docs half; upstream grill-with-docs/grilling removed 2026-10-22 by Owner ruling.
 
 Do NOT use for existing code (use `requesting-code-review`) or simple one-off tasks.
 tasks.
 
-> 与上游 `mattpocock/skills` 的关系：本 skill 已吸收其 `grilling` 的 frontier 轮次机制（作者行含出处），是 **Hermes 侧执行体**；Claude Code 侧请装上游三件套（grill-with-docs+grilling+domain-modeling），**勿与 grilling 同装**（触发词双匹配）。docs 半区（GLOSSARY.md/ADR 落纸）由 `domain-modeling` 承担，与本 skill 互补不重叠，两边都应安装。
+> 与上游 `mattpocock/skills` 的关系：本 skill 已吸收其 `grilling` 的 frontier 轮次机制（作者行含出处），是**全 agent 统一拷问执行体**（上游 grill-with-docs/grilling 已于 2026-10-22 Owner 拍板移除）。docs 半区（GLOSSARY.md/ADR 落纸）由 `domain-modeling` 承担，与本 skill 互补不重叠，GI 门禁第二段 = 本 skill + domain-modeling 配套使用。
 
 ## Prerequisites
 

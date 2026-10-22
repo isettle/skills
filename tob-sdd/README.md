@@ -17,10 +17,8 @@ tob-sdd/
 └── skills/           # AI 代理技能（SKILL.md 通用格式）
     ├── spec-kit-sdd/          # SDD 全流程执行经验（各阶段 pattern + 踩坑）
     ├── sdd-speckit-research/  # spec-kit 官方结构已验证事实（答规范问题先查它）
-    ├── grill-with-docs/       # GI 门禁第二段入口（vendored：mattpocock/skills 组合层）
-    ├── grilling/              # vendored：frontier 轮次拷问机制
-    ├── domain-modeling/       # vendored：GLOSSARY/ADR 随拷问沉淀（含两个 FORMAT 附件）
-    ├── grill-me/              # Hermes 强化等价体（可选执行体，吸收 grilling 机制）
+    ├── grill-me/              # GI 门禁第二段：frontier 轮次拷问执行体（吸收上游 grilling 机制）
+    ├── domain-modeling/       # vendored：GLOSSARY/ADR 落纸纪律（含两个 FORMAT 附件）——与 grill-me 配套
     └── shadcn-admin-frontend/ # React+shadcn-admin 前端搭建铁律与 CN 网络配方
 ```
 
@@ -54,8 +52,7 @@ git clone git@github.com:isettle/skills.git   # 或 https://github.com/isettle/s
 cd skills
 cp -R tob-sdd/skills/{spec-kit-sdd,sdd-speckit-research,grill-me,domain-modeling,shadcn-admin-frontend} ~/.hermes/skills/
 # 有同名 skill 已存在时先备份再覆盖，或逐目录 diff 后合并
-# 故意【不装】grilling / grill-with-docs：grilling 的 frontier 机制已被 grill-me 吸收（同装双匹配触发词）；
-# grill-with-docs 是 Claude Code Skill 工具链的组合跳板，在 Hermes 上是死桩
+# 上游 grill-with-docs/grilling 已按 Owner 2026-10-22 决定移除——拷问只用 grill-me，docs 落纸用 domain-modeling
 ```
 
 装完在会话里 `/skills` 或让 agent `skills_list` 可见即生效；agent 会按任务自动加载。
@@ -66,11 +63,11 @@ SKILL.md 与 Claude Code 的 Agent Skills 格式相同，目录名即技能名�
 
 ```bash
 cd skills
-# 拷问三件套（组合层+机制+docs 纪律）一起装；故意【不装】grill-me（与 grilling 功能重叠，Hermes 专用执行体）
-cp -R tob-sdd/skills/{spec-kit-sdd,sdd-speckit-research,grill-with-docs,grilling,domain-modeling,shadcn-admin-frontend} ~/.claude/skills/
+# 与 Hermes 同一套；grill-me 即拷问执行体（原 grill-with-docs/grilling 组合层已移除）
+cp -R tob-sdd/skills/{spec-kit-sdd,sdd-speckit-research,grill-me,domain-modeling,shadcn-admin-frontend} ~/.claude/skills/
 ```
 
-> 重叠关系一览：`grill-me`（Hermes 执行体）≈ `grilling`（上游机制，被其吸收）；`domain-modeling`（GLOSSARY/ADR 落纸纪律）与二者**互补不重叠**，两边都装；`grill-with-docs` 仅在 Claude Code 有编排意义。**同一 agent 里 grilling 与 grill-me 只装其一。**
+> 拷问组合定稿：**`grill-me`（frontier 轮次拷问）＋ `domain-modeling`（GLOSSARY/ADR 落纸）**，一对互补、无重复；上游组合跳板与机制原件已移除，不再按 agent 区分执行体。
 
 ### Codex / Qoder / Cursor 用户
 
@@ -82,7 +79,7 @@ cp -R tob-sdd/skills/{spec-kit-sdd,sdd-speckit-research,grill-with-docs,grilling
 
 ## Vendored 上游技能（attribution）
 
-`grill-with-docs/`、`grilling/`、`domain-modeling/` 为 [mattpocock/skills](https://github.com/mattpocock/skills)（main 分支）原样照抄，2026-10-22 经 GitHub contents API 逐文件 git-blob SHA 校验一致；含各自 `agents/openai.yaml`。上游更新时重新照抄并复核 SHA，不做本地魔改——魔改请改名另立。
+`domain-modeling/` 为 [mattpocock/skills](https://github.com/mattpocock/skills)（main 分支）原样照抄，2026-10-22 经 GitHub contents API 逐文件 git-blob SHA 校验一致；含 `agents/openai.yaml`。上游更新时重新照抄并复核 SHA，不做本地魔改——魔改请改名另立。同批次 vendored 的 `grill-with-docs/`、`grilling/` 已于 2026-10-22 经 Owner 拍板移除（拷问执行体统一为 grill-me）。
 
 ## 维护约定
 
@@ -95,4 +92,4 @@ cp -R tob-sdd/skills/{spec-kit-sdd,sdd-speckit-research,grill-with-docs,grilling
 
 - `intent.md` 拼写（英文习惯 intent/intend）与 GI 门禁命名已按 2026-10-22 拍板定稿。
 - G0'（clarify）与 G2'（checklist）在 AGENTS 模板中标【待复核】，团队试用后定去留。
-- GI 门禁第二段的拷问执行体：Claude Code 用 vendored 上游套件（`grill-with-docs`+`grilling`+`domain-modeling`，原样照抄、SHA 校验一致）；Hermes 用 `grill-me`（本机强化版，frontier 机制来自上游 grilling，产出面=轮次+ADR+术语表，与 intent.md §5 对平）。两者产出物相同，选哪个看 agent，不用纠结。
+- GI 门禁第二段执行体（定稿 2026-10-22）：全 agent 统一 `grill-me`＋`domain-modeling`；上游 grill-with-docs/grilling 已移除。

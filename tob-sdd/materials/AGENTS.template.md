@@ -52,7 +52,7 @@
 
 ## 3. 引擎流程（按序，不跳步）
 
-**`intent.md`（整个流程最前端的入口物料，必做：四段齐备＋grill-with-docs 拷问完成，过 GI 门禁）** → `/speckit-constitution`（项目首建一次；后续 feature 跳过）→ `/speckit-specify`（或手写 spec.md）
+**`intent.md`（整个流程最前端的入口物料，必做：四段齐备＋grill-me 拷问＋domain-modeling 落纸，过 GI 门禁）** → `/speckit-constitution`（项目首建一次；后续 feature 跳过）→ `/speckit-specify`（或手写 spec.md）
 → **Spec Kit Preview（低保真原型，必做步骤）** → **`/speckit-clarify`（必做，位置在原型后、plan 前：把 spec 缺口/歧义与原型评审反馈逐项澄清，拍板后回写 spec）** → `/speckit-plan` → **`/speckit-checklist`（必做：plan 产出后生成质量检查清单）** → 可选 `/speckit-analyze`
 → `/speckit-tasks` → `/speckit-implement` → `/speckit-converge`。
 
@@ -60,7 +60,7 @@
 
 **硬性门禁（违反者不得进入下一阶段）**：
 
-- **GI intent 门禁**：`intent.md` MUST 先于 `/speckit-constitution`（首建）与 `/speckit-specify` 编写，两段齐过才允许进入下一流程：① `specs/NNN-*/intent.md` 四段齐备非空（需求说明/需求痛点/需求草稿/泳道图），痛点段无代价数字、泳道图画不出主流程的＝视为未想清楚；② 四段有基本内容后 MUST 跑 `grill-with-docs` 套件（= `grilling` 逐轮对抗拷问 + `domain-modeling` 边问边写 ADR/术语表；上游 mattpocock/skills 原样 vendored 于本包 `tob-sdd/skills/`；Hermes 单代理执行也可用强化等价体 `grill-me`，产出面相同）至 frontier 清空，决定与术语表回写 intent.md「拷问记录」段。spec 定稿后 intent.md 冻结为溯源快照，需求变化走回写三分类改 spec，不回改 intent.md。**目录落位**：先手建 `specs/NNN-<slug>/` 放 intent.md，调 `/speckit-specify` 时 MUST 显式提供该 `SPECIFY_FEATURE_DIRECTORY`（官方支持），否则会另生成新目录造成双份。
+- **GI intent 门禁**：`intent.md` MUST 先于 `/speckit-constitution`（首建）与 `/speckit-specify` 编写，两段齐过才允许进入下一流程：① `specs/NNN-*/intent.md` 四段齐备非空（需求说明/需求痛点/需求草稿/泳道图），痛点段无代价数字、泳道图画不出主流程的＝视为未想清楚；② 四段有基本内容后 MUST 跑 `grill-me` 逐轮对抗拷问（frontier 轮次制）＋ `domain-modeling` 边问边写 ADR/术语表，至 frontier 清空，决定与术语表回写 intent.md「拷问记录」段。spec 定稿后 intent.md 冻结为溯源快照，需求变化走回写三分类改 spec，不回改 intent.md。**目录落位**：先手建 `specs/NNN-<slug>/` 放 intent.md，调 `/speckit-specify` 时 MUST 显式提供该 `SPECIFY_FEATURE_DIRECTORY`（官方支持），否则会另生成新目录造成双份。
 - **G0' clarify 门禁**：进入 `/speckit-plan` 前 MUST 跑过 `/speckit-clarify`——spec 中 `[NEEDS CLARIFICATION]` 与原型评审产生的开放问题全部清零或已列待拍板清单并经 Owner 裁决；未过不得进 plan。
 - **G1 原型门禁**：进入 `/speckit-plan` 前，必须验证 `PREVIEW.md` 映射表已覆盖 spec 中所有 US（每个 US 至少有一个原型页面）；缺原型不得进入 plan，更不得进入实现。验证命令：`grep "^### User Story" specs/NNN-*/spec.md` 提取 US 列表，比对 `PREVIEW.md` 页面↔spec 溯源映射表。
 - **G2 文档完整性门禁**：进入 `/speckit-implement` 前，模块必须备齐六件套：`spec.md` + `plan.md` + `tasks.md` + `data-model.md` + `contracts/api.md` + `research.md`（缺任何一件不得开工写码）。
@@ -177,7 +177,7 @@
 | 检查项 | 验证方法 | 门禁级别 |
 |--------|----------|----------|
 | §P 项目参数已填齐 | 读 §P 表格，`<待填>` 出现次数＝0 | G0 |
-| GI intent 门禁两段：四段齐备（需求说明/痛点/草稿/泳道图）＋ grill-with-docs 拷问完成（frontier 清空，决定/术语表已回写） | `ls specs/NNN-*/intent.md` ＋ 逐段非空；痛点表有代价数字；泳道图 mermaid 可渲染；§5 拷问记录含轮次与结论 | **GI** |
+| GI intent 门禁两段：四段齐备（需求说明/痛点/草稿/泳道图）＋ grill-me＋domain-modeling 拷问完成（frontier 清空，决定/术语表已回写） | `ls specs/NNN-*/intent.md` ＋ 逐段非空；痛点表有代价数字；泳道图 mermaid 可渲染；§5 拷问记录含轮次与结论 | **GI** |
 | spec.md 已完成且通过合规核查 | 读 spec.md 检查章节完整性；grep 实现层措辞=0 | G2 |
 | 原型覆盖率 100% | `grep "^### User Story" specs/NNN-*/spec.md` 提取 US 列表，比对 `PREVIEW.md` 映射表；preview/ 目录有对应 HTML 或显式标注占位 | **G1** |
 | clarify 已执行（原型评审后、plan 前；NC=0 或待拍板已裁决） | `grep -c "NEEDS CLARIFICATION" specs/NNN-*/spec.md`＝0 ＋ 开放【待复核】清单逐条有 Owner 结论 | G0' |

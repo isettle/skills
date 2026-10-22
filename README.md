@@ -4,7 +4,7 @@
 
 | 目录 | 类型 | 内容 |
 |---|---|---|
-| [`tob-sdd/`](tob-sdd/README.md) | ToB 后台 × spec-kit SDD 流程 | 7 个执行技能（spec-kit-sdd / sdd-speckit-research / grill-with-docs / grilling / domain-modeling / grill-me / shadcn-admin-frontend）＋ 6 件治理物料模板（AGENTS/宪法/DESIGN/intent/落位与回写规则） |
+| [`tob-sdd/`](tob-sdd/README.md) | ToB 后台 × spec-kit SDD 流程 | 5 个执行技能（spec-kit-sdd / sdd-speckit-research / grill-me / domain-modeling / shadcn-admin-frontend）＋ 6 件治理物料模板（AGENTS/宪法/DESIGN/intent/落位与回写规则） |
 
 ## 安装方式
 

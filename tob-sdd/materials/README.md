@@ -10,13 +10,13 @@
 |---|---|---|
 | `AGENTS.template.md` | AI 编码代理工作手册（流程、门禁、编辑纪律、合规检查清单） | 仓库根 `AGENTS.md`，填 §P 项目参数 |
 | `constitution.template.md` | 项目宪法（五条治理原则 + 质量门禁 + Governance） | `.specify/memory/constitution.md` |
-| `intent.template.md` | 需求入口物料（四段＋grill-with-docs 拷问记录，GI 门禁） | 每个 feature `specs/NNN-*/intent.md`，置于 constitution/specify 之前 |
+| `intent.template.md` | 需求入口物料（四段＋grill-me＋domain-modeling 拷问记录，GI 门禁） | 每个 feature `specs/NNN-*/intent.md`，置于 constitution/specify 之前 |
 | `DESIGN.template.md` | 前端设计规范（视觉 token + 布局 + 交互行为规则 + 组件约束） | 仓库根 `DESIGN.md`（UI-GATE 硬门禁的真相源） |
 | `spec-kit物料落位与回写规则.md` | 每类内容写进哪个物料文件 + 原型改动何时回写 spec | 使用规则，不入库；核心条款已嵌入 AGENTS §1/§4/§5 |
 
 ## 新项目接入步骤（约 30 分钟）
 
-1. **先写 `intent.md`**：复制 `intent.template.md` → 手建目录 `specs/001-<slug>/intent.md`，四段填齐后跑 grill-with-docs 拷问（过 GI 门禁）。后续每个 feature 同样先 intent.md。
+1. **先写 `intent.md`**：复制 `intent.template.md` → 手建目录 `specs/001-<slug>/intent.md`，四段填齐后跑 grill-me＋domain-modeling 拷问（过 GI 门禁）。后续每个 feature 同样先 intent.md。
 2. 复制 `AGENTS.template.md` → 仓库根 `AGENTS.md`，**填齐 §P 项目参数表**（任一项空着必须先问 Owner，禁止按默认值自行决定）。
 3. 复制 `constitution.template.md` → `.specify/memory/constitution.md`，替换 `<项目名>`，跑 `/speckit-constitution` 校验格式。
 4. 复制 `DESIGN.template.md` → 仓库根 `DESIGN.md`。不打算改皮的 ToB 项目可直接沿用默认「Soft-UI 黑白灰体系」；有参考图/品牌色的按参考图重皮（token 层→组件层→布局层→页面层顺序落地），重皮后 §2/§3/§4 数值必须全部替换为实际值。

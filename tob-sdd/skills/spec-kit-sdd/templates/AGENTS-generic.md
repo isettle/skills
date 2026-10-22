@@ -51,13 +51,13 @@
 
 ## 3. 引擎流程（按序，不跳步）
 
-**`intent.md`（流程最前端入口物料：需求说明/痛点/草稿/泳道图＋grill-with-docs 拷问，过 GI 门禁）** → `/speckit-constitution`（项目首建一次；后续 feature 跳过）→ `/speckit-specify`（或手写 spec.md）
+**`intent.md`（流程最前端入口物料：需求说明/痛点/草稿/泳道图＋grill-me 拷问＋domain-modeling 落纸，过 GI 门禁）** → `/speckit-constitution`（项目首建一次；后续 feature 跳过）→ `/speckit-specify`（或手写 spec.md）
 → **Spec Kit Preview（低保真原型，必做步骤）** → **`/speckit-clarify`（必做，位置＝原型后、plan 前：收口 spec 缺口/歧义与原型评审反馈，拍板后回写 spec）** → `/speckit-plan` → **`/speckit-checklist`（必做，紧跟 plan）** → 可选 `/speckit-analyze`
 → `/speckit-tasks` → `/speckit-implement` → `/speckit-converge`。
 
 **硬性门禁（违反者不得进入下一阶段）**：
 
-- **GI intent 门禁**：`intent.md` 先于 constitution/specify 编写；①四段齐备非空（痛点带代价数字、泳道图能画主流程）②grill-with-docs（本机等价体 grill-me）拷问至 frontier 清空，决定/术语表回写 intent「拷问记录」段——两段齐过才进下一流程。spec 定稿后 intent.md 冻结为溯源快照，需求变化走回写三分类改 spec，不回改 intent。
+- **GI intent 门禁**：`intent.md` 先于 constitution/specify 编写；①四段齐备非空（痛点带代价数字、泳道图能画主流程）②grill-me 拷问＋domain-modeling 落纸至 frontier 清空，决定/术语表回写 intent「拷问记录」段——两段齐过才进下一流程。spec 定稿后 intent.md 冻结为溯源快照，需求变化走回写三分类改 spec，不回改 intent。
 - **G0' clarify 门禁**：进入 `/speckit-plan` 前 MUST 跑过 `/speckit-clarify`——spec 中 `[NEEDS CLARIFICATION]` 与原型评审产生的开放问题（含【待复核】）全部清零或经 Owner 裁决；未过不得进 plan。技术选型（栈/凭据/部署）不占 clarify 额度、归 plan 首轮问；各被触及 spec 新增 `## Clarifications`+`### Session 日期` 段逐条记 Q→A。
 - **G1 原型门禁**：进入 clarify/plan 前，必须验证 `PREVIEW.md` 映射表已覆盖 spec 中所有 US（每个 US 至少有一个原型页面）；缺原型不得进入后续阶段，更不得进入实现。验证命令：`grep "^### User Story" specs/NNN-*/spec.md` 提取 US 列表，比对 `PREVIEW.md` 页面↔spec 溯源映射表。
 - **G2 文档完整性门禁**：进入 `/speckit-implement` 前，模块必须备齐六件套：`spec.md` + `plan.md` + `tasks.md` + `data-model.md` + `contracts/api.md` + `research.md`（缺任何一件不得开工写码）。

@@ -4,7 +4,7 @@
 **性质**: 业务方原始需求的入口记录，用业务语言，允许粗糙、允许口语——不套 spec 格式纪律。
 **GI 门禁（两段，通过后才允许进入下一流程）**:
 ① **基础内容**：§1–§4 四段齐备非空（需求说明/需求痛点/需求草稿/泳道图）；
-② **对抗拷问**：发现 ① 已有基本内容后，MUST 用 `grill-with-docs` 套件（上游 mattpocock/skills 的 `grilling`＋`domain-modeling`，本包已 vendored；Hermes 单代理执行可用等价强化体 `grill-me`）按设计树逐轮拷问需求，直到 frontier 清空——每个分支都有结论、无静默假设；拷问结论（决定/砍掉项/ADR/术语表）回写 §5，仓库级 GLOSSARY.md / docs/adr/ 按 domain-modeling 的格式另立。
+② **对抗拷问**：发现 ① 已有基本内容后，MUST 用 `grill-me`（frontier 轮次拷问）＋ `domain-modeling`（边问边落纸）套件按设计树逐轮拷问需求，直到 frontier 清空——每个分支都有结论、无静默假设；拷问结论（决定/砍掉项/ADR/术语表）回写 §5，仓库级 GLOSSARY.md / docs/adr/ 按 domain-modeling 的格式另立。
 **冻结规则**: spec 定稿后本文件冻结为溯源快照；此后需求变化走回写三分类、直接改 spec，**不回改 intent.md**；新迭代另起一份新 intent.md。
 
 ---
@@ -71,9 +71,9 @@ flowchart LR
 
 > 泳道图落点：spec 的 User Story 流程主线 + Edge Cases（异常分支、中断点、超时）。画不出泳道的需求＝还没想清楚，先补齐再进拷问。
 
-## 5. 拷问记录（grill-with-docs，GI 门禁第二段）
+## 5. 拷问记录（grill-me＋domain-modeling，GI 门禁第二段）
 
-拷问机制：把需求建模为设计树，每轮只问「前置已定」的 frontier 问题，逐题附推荐答案；回答重塑树、推前沿，直到无开放分支。本段承接 `grill-with-docs` 的 docs 产出面：`grilling` 管轮次与 frontier，`domain-modeling` 管术语表（GLOSSARY，格式见其 GLOSSARY-FORMAT.md）与 ADR（格式见其 ADR-FORMAT.md）；intent.md 记 feature 级，仓库级 GLOSSARY.md/docs/adr/ 由其 lazily 创建。
+拷问机制：把需求建模为设计树，每轮只问「前置已定」的 frontier 问题，逐题附推荐答案；回答重塑树、推前沿，直到无开放分支。本段两个执行体分工：`grill-me` 管轮次与 frontier，`domain-modeling` 管术语表（GLOSSARY，格式见其 GLOSSARY-FORMAT.md）与 ADR（格式见其 ADR-FORMAT.md）；intent.md 记 feature 级，仓库级 GLOSSARY.md/docs/adr/ 由其 lazily 创建。
 
 ### 5.1 轮次日志
 

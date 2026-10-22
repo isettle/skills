@@ -7,7 +7,7 @@
 
 | 内容类型 | 物料文件 | 电子商城示例 |
 |---|---|---|
-| 需求原始入口（说明/痛点/草稿/泳道图＋拷问记录） | `specs/NNN-*/intent.md`（流程最前端，先于 constitution/specify；GI 门禁＝四段齐备＋grill-with-docs 拷问完成；spec 定稿后冻结为溯源快照） | 「运营每天靠聊天记录核退款，20 分钟/单」＋退款泳道图＋拷问轮次与术语表 |
+| 需求原始入口（说明/痛点/草稿/泳道图＋拷问记录） | `specs/NNN-*/intent.md`（流程最前端，先于 constitution/specify；GI 门禁＝四段齐备＋grill-me＋domain-modeling 拷问完成；spec 定稿后冻结为溯源快照） | 「运营每天靠聊天记录核退款，20 分钟/单」＋退款泳道图＋拷问轮次与术语表 |
 | 业务规则（WHAT/WHY） | `spec.md`（FR MUST / US / SC / Key Entities / Edge Cases / Assumptions） | `FR-010: 创建商品前系统 MUST 要求操作人确认价格与库存`；`US1: 运营 3 分钟内完成上架` |
 | 页面级交互规则（按钮名称、弹层还是抽屉、字段布局、多步表单） | `DESIGN.md` 交互行为章 + `preview/*.html` 原型（放 feature 目录内，与 spec 一起版本化） | 「创建」按钮 → 点开出价弹层；弹层放 ≤8 个字段；提交按钮 pending 文案「保存中…」 |
 | 操作走查步骤 | `quickstart.md`（plan Phase 1 产物） | 「打开商品列表 → 点创建 → 弹层出现 → 填价格 → 点确认」 |
