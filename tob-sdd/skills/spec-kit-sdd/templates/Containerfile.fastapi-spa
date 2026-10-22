@@ -1,0 +1,52 @@
+# 项目A 验证过的多阶段 Containerfile（podman build -f Containerfile -t <img> .）
+# 形态：node 构建 SPA → python 运行 FastAPI 托管静态产物（无 nginx）
+# 外部数据服务（MySQL/OSS）不容器化；凭据运行时 --env-file 注入，镜像零凭据
+
+# ---- Stage 1: 前端构建 ----
+FROM docker.io/library/node:22-alpine AS frontend-build
+WORKDIR /fe
+# 国内网络：corepack/pnpm 全走 npmmirror（默认源会卡死构建）
+ENV COREPACK_NPM_REGISTRY=https://registry.npmmirror.com
+RUN corepack enable && corepack prepare pnpm@latest-10 --activate
+COPY frontend/package.json frontend/pnpm-lock.yaml* ./
+RUN pnpm config set registry https://registry.npmmirror.com && \
+    (pnpm install --frozen-lockfile || pnpm install)
+COPY frontend/ ./
+RUN pnpm build   # vite outDir 指 ../backend/app/static
+
+# ---- Stage 2: 后端运行时 ----
+FROM docker.io/library/python:3.11-slim AS runtime
+
+# 宿主机系统依赖装进镜像（文档转换 headless + CJK 字体）；apt 走阿里源
+RUN sed -i 's|deb.debian.org|mirrors.aliyun.com|g' /etc/apt/sources.list.d/debian.sources && \
+    apt-get update && apt-get install -y --no-install-recommends \
+      libreoffice-writer libreoffice-calc libreoffice-core \
+      fonts-noto-cjk \
+      curl \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# Python 依赖先装（层缓存友好）；pip 走清华源
+COPY backend/requirements.txt /app/backend/requirements.txt
+RUN pip install --no-cache-dir -r /app/backend/requirements.txt \
+      -i https://pypi.tuna.tsinghua.edu.cn/simple
+
+COPY backend/ /app/backend/
+# 前端产物（vite outDir=../backend/app/static → 构建阶段 /backend/app/static）
+COPY --from=frontend-build /backend/app/static/ /app/backend/app/static/
+
+COPY deploy/entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
+
+EXPOSE 8000
+# 注意：podman 默认 OCI 格式忽略 HEALTHCHECK（warning 无害）；entrypoint 自带等库逻辑
+HEALTHCHECK --interval=30s --timeout=8s --retries=3 \
+  CMD curl -fsS http://127.0.0.1:8000/api/v1/health | grep -q '"mysql"' || exit 1
+
+WORKDIR /app/backend
+ENTRYPOINT ["/app/entrypoint.sh"]
+
+# 运行：
+#   podman run -d --name <name> --env-file backend/.env -p 8000:8000 <img>
+# 重建：podman build … && podman rm -f <name> && podman run …
