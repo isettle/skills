@@ -31,6 +31,8 @@
 | 怎么实现（HOW：栈、表、接口） | 各模块 `plan.md` / `data-model.md` / `contracts/` |
 | 长什么样、弹层/抽屉/按钮怎么交互 | `DESIGN.md` + `specs/NNN-*/preview/`（原型） |
 | 干活流程与门禁 | `AGENTS.md` |
+| 跨 feature 词汇 | 仓库根 `GLOSSARY.md` | grill 敲定即写入；Key Entities 从其确认落 spec，词汇冲突以它为准（AGENTS §4.5） |
+| 技术决策（难逆转＋费解＋真权衡） | 仓库根 `docs/adr/` | 需求裁决仍走 spec B 判例——一条决策只有一个家 |
 
 解释优先级：**spec 条款编号 > 宪法原则 > 通用惯例**；冲突一律上报 Owner 裁决，代理不得静默改需求。
 

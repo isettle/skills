@@ -29,8 +29,11 @@
 |---|---|---|
 | 治理原则 | `.specify/memory/constitution.md` | 项目宪法，违反者不得进入实现（G4） |
 | 业务需求（WHAT） | `specs/NNN-*/spec.md`（含 §P 总纲模块） | 唯一需求真相源；条款编号即判例 |
+| 需求入口快照 | `specs/NNN-*/intent.md` | specify 前置物料；定稿后冻结为溯源快照（GI 门禁，衔接见 §4.5） |
 | 实现方案（HOW） | 各模块 `plan.md` / `research.md` / `data-model.md` / `contracts/` / `quickstart.md` | 技术决策在此，不在 spec |
 | 低保真原型 | 总纲模块 `preview/`（+ `PREVIEW.md` 映射与决策日志） | spec 的零虚构投影 |
+| 仓库级术语表 | 仓库根 `GLOSSARY.md` | 跨 feature 词汇唯一权威；grill 拷问敲定即写入，只收本项目特有概念、不夹实现细节（衔接见 §4.5） |
+| 架构决策记录 | 仓库根 `docs/adr/NNNN-<题>.md` | 「难逆转＋脱离上下文费解＋真实权衡」技术决策的家（升格条件见 §4.5） |
 | 工作流模板 | `.specify/`（templates / scripts / workflows） | 上游生成物，**只读，不得手改** |
 
 解释优先级：**spec 条款编号 > 宪法原则 > 通用惯例**；冲突一律上报项目 Owner 裁决。
@@ -48,12 +51,13 @@
 
 ## 3. 引擎流程（按序，不跳步）
 
-`/speckit-constitution` → `/speckit-specify`（或手写 spec.md）
+**`intent.md`（流程最前端入口物料：需求说明/痛点/草稿/泳道图＋grill-with-docs 拷问，过 GI 门禁）** → `/speckit-constitution`（项目首建一次；后续 feature 跳过）→ `/speckit-specify`（或手写 spec.md）
 → **Spec Kit Preview（低保真原型，必做步骤）** → **`/speckit-clarify`（必做，位置＝原型后、plan 前：收口 spec 缺口/歧义与原型评审反馈，拍板后回写 spec）** → `/speckit-plan` → **`/speckit-checklist`（必做，紧跟 plan）** → 可选 `/speckit-analyze`
 → `/speckit-tasks` → `/speckit-implement` → `/speckit-converge`。
 
 **硬性门禁（违反者不得进入下一阶段）**：
 
+- **GI intent 门禁**：`intent.md` 先于 constitution/specify 编写；①四段齐备非空（痛点带代价数字、泳道图能画主流程）②grill-with-docs（本机等价体 grill-me）拷问至 frontier 清空，决定/术语表回写 intent「拷问记录」段——两段齐过才进下一流程。spec 定稿后 intent.md 冻结为溯源快照，需求变化走回写三分类改 spec，不回改 intent。
 - **G0' clarify 门禁**：进入 `/speckit-plan` 前 MUST 跑过 `/speckit-clarify`——spec 中 `[NEEDS CLARIFICATION]` 与原型评审产生的开放问题（含【待复核】）全部清零或经 Owner 裁决；未过不得进 plan。技术选型（栈/凭据/部署）不占 clarify 额度、归 plan 首轮问；各被触及 spec 新增 `## Clarifications`+`### Session 日期` 段逐条记 Q→A。
 - **G1 原型门禁**：进入 clarify/plan 前，必须验证 `PREVIEW.md` 映射表已覆盖 spec 中所有 US（每个 US 至少有一个原型页面）；缺原型不得进入后续阶段，更不得进入实现。验证命令：`grep "^### User Story" specs/NNN-*/spec.md` 提取 US 列表，比对 `PREVIEW.md` 页面↔spec 溯源映射表。
 - **G2 文档完整性门禁**：进入 `/speckit-implement` 前，模块必须备齐六件套：`spec.md` + `plan.md` + `tasks.md` + `data-model.md` + `contracts/api.md` + `research.md`（缺任何一件不得开工写码）。
@@ -87,6 +91,13 @@
 - 替换文本的锚点必须**逐字复制自文件原文**（≤10 行，取目标条款本身）；**禁止**用「代码里算出来的坐标切片」当锚点。
 - 改完立刻跑断言：① FR 定义集合与开工前快照一致（缺/多都报警）；② 每个文件含预期章节标题（`## 溯源` / `### Key Entities` / `### Edge Cases`）；③ 编号集合连续；④ 关键语义词 grep 无丢失。
 - 表格类编辑收尾查重（同一行首文本不得重复出现）。
+
+### 4.5 grill 产出与 spec 体系的衔接（术语表 / ADR / 决策单家）
+
+- **术语双柜面（防双真相源）**：`GLOSSARY.md`＝跨 feature 词汇权威——grill 拷问中新术语敲定**当场**写入（不攒批）、只收本项目特有概念、表内禁实现细节；`spec.md Key Entities`＝本 feature 数据模型（业务属性+基数，改动仍走 §4 人工确认纪律）。喂料方向：GLOSSARY → KE 逐条人工确认 → 落 spec；两处定义冲突时**当场摊开交 Owner 裁决、改 GLOSSARY 收敛**——词汇以 GLOSSARY 为准，KE 不重定义词汇。
+- **决策单家（一条决策只有一个家）**：需求裁决（WHAT）→ spec Assumptions B 组判例（判例编号即真相）；满足 ADR 三条件（**难以逆转 ＋ 脱离上下文会令人费解 ＋ 真实权衡的结果**，三者同时成立）的技术决策 → `docs/adr/NNNN-<题>.md`（格式照 domain-modeling 的 ADR-FORMAT，不满足条件不建）；可逆技术取舍/选型细节 → `plan.md` Decision ＋ `research.md` Alternatives。家与家之间只以编号/路径引用，MUST NOT 复制全文；ADR 正文可引 FR/判例编号回溯需求。
+- **plan 阶段复用拷问**：`/speckit-plan` 首轮批量定盘（栈/DB/部署/前端形态）即一场 grill——frontier 轮次制、每题附推荐答案、事实由代理自查、裁决归 Owner；拍板中命中 ADR 三条件的当场升格进 `docs/adr/`，不散落各模块 plan/research。
+- 拷问中压测出的边缘场景（domain-modeling 编造的违例/边界反例）→ 转写进 spec 的 Edge Cases ＋ GWT 验收场景素材。
 
 ## 5. 原型纪律（Spec Kit Preview）
 
@@ -175,6 +186,7 @@
 | 无 `[NEEDS CLARIFICATION]` 残留 | `grep "NEEDS CLARIFICATION" specs/NNN-*/spec.md` 应为 0，或显式列出待拍板 |
 | 实体/属性术语纪律（对应 §4） | 收集各 spec Key Entities 定义集 → 扫 spec 非 KE 章节与原型 label/button/th 用词 → 逐个回定义集；无定义＝折回已定义词或交人工确认补 KE；派生/状态属性的示例值还须与属性定义自洽（如「当前停留」不得给离线设备填进行中值） |
 | 编号连续无重编 | 提取所有 FR 编号排序后检查连续性（允许跳号但不允许重编） |
+| 术语双柜面对平（对应 §4.5） | 本轮涉及实体/属性名词逐条对 `GLOSSARY.md` 与 Key Entities 查两处定义——两处并存且含义分叉＝违规，摊开交 Owner 裁决后收敛 GLOSSARY |
 
 ### 9.4 完成判据（对应 §7）
 

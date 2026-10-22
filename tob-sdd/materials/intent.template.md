@@ -92,6 +92,8 @@ flowchart LR
 | `<例：退款单>` | `<一句话业务定义>` | `<是/否>` |
 
 > 术语表是 Key Entities 的前置喂料：拷问中定名的业务概念，进 spec 时按实体/属性术语纪律逐个确认落 Key Entities。
+> **双写规则（AGENTS §4.5）**：拷问中每敲定一个术语，MUST 当场同步写入仓库根 `GLOSSARY.md`（跨 feature 词汇权威，只收本项目特有概念、禁实现细节）；§5.3 只是本 feature 的速览清单。之后 Key Entities 从 GLOSSARY 逐条人工确认落 spec——词汇以 GLOSSARY 为准，KE 不重定义词汇，两处冲突当场摊开拍板。
+> 同理，§5.2 决定记录中满足「难以逆转＋脱离上下文费解＋真实权衡」三条件的**技术决策**，除记 ADR-号外 MUST 落 `docs/adr/NNNN-<题>.md` 正文（格式照 domain-modeling 的 ADR-FORMAT）；需求裁决类仍只走 spec B 组判例——一条决策只有一个家，此处只留编号引用。
 
 ## 6. 对 spec 的映射（写 spec 时对照）
 

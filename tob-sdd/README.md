@@ -6,7 +6,7 @@
 ## 目录结构
 
 ```
-sdd-team-pack/
+tob-sdd/
 ├── materials/        # 治理物料模板（与 agent 无关，任何项目/任何 AI 都可拷用）
 │   ├── README.md                      # 物料集导航 + 新项目接入 5 步
 │   ├── AGENTS.template.md             # → 仓库根 AGENTS.md（填 §P）
@@ -27,6 +27,18 @@ sdd-team-pack/
 ## 流程一图（本包定稿版）
 
 `intent.md（GI 门禁：四段＋拷问）→ constitution → specify → preview 原型（G1）→ clarify（G0'）→ plan → checklist（G2'）→ (analyze) → tasks → implement（G2 六件套 + UI-GATE）→ converge（G3）`
+
+## grill 产出与 spec 体系的衔接（AGENTS 模板 §4.5 条款摘要）
+
+| 产出 | 落点 | 规则 |
+|---|---|---|
+| 术语敲定 | 仓库根 `GLOSSARY.md`（跨 feature 词汇权威）＋ intent §5.3（本 feature 速览） | 当场写入不攒批；只收项目特有概念、禁实现细节 |
+| 数据定义 | `spec.md` Key Entities | 喂料方向 GLOSSARY → KE 逐条人工确认 → spec；冲突＝词汇归 GLOSSARY、KE 不重定义，摊开拍板 |
+| 技术决策（难逆转＋费解＋真权衡三条件齐备） | `docs/adr/NNNN-<题>.md` | 格式照 domain-modeling 的 ADR-FORMAT；不命中留 plan/research |
+| 需求裁决（WHAT） | spec Assumptions B 组判例 | 与 ADR 分治：一条决策只有一个家，跨家只引编号 |
+| 边缘场景压测 | spec Edge Cases ＋ GWT 验收场景 | grill 编的违例反例转写进 spec |
+
+`/speckit-plan` 首轮技术栈/架构定盘复用同一套 grill 机制（frontier 轮次、每题附推荐答案、事实代理自查、裁决归 Owner），命中 ADR 三条件的当场升格。
 
 ## 怎么用（分角色）
 
