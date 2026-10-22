@@ -88,8 +88,8 @@ cp -R tob-sdd/skills/{spec-kit-sdd,sdd-speckit-research,grill-me,domain-modeling
 - 提交前跑脱敏自查：真实凭据 / 个人绝对路径 / 内网主机 IP 不得入库（示例用 `<待填>` 与电子商城虚构数据）。
 - commit message 禁 conventional 前缀（`feat:`/`fix:`），一行摘要＋要点列表；commit 后 pull --rebase＋push，`rev-parse HEAD == origin/master` 验证。
 
-## 已知待复核（Owner 未最终拍板项）
+## 已知开放项（非 Owner 待办）
 
-- `intent.md` 拼写（英文习惯 intent/intend）与 GI 门禁命名已按 2026-10-22 拍板定稿。
-- G0'（clarify）与 G2'（checklist）在 AGENTS 模板中标【待复核】，团队试用后定去留。
+- 团队试用反馈后定去留：**G0'（clarify）与 G2'（checklist）两道加强门禁**——包内模板已去【待复核】标签默认转正（2026-10-22），但源头项目母仓（内部仓库）的 AGENTS.md 里仍带【待复核】，母仓下次修订时同步摘除。
+- 其余已定稿：intent.md 命名与流程位置（2026-10-22）、GI 门禁两段式与执行体 grill-me＋domain-modeling（2026-10-22）、回写三分类、落位判据。
 - GI 门禁第二段执行体（定稿 2026-10-22）：全 agent 统一 `grill-me`＋`domain-modeling`；上游 grill-with-docs/grilling 已移除。
