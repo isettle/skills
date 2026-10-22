@@ -32,6 +32,8 @@ mechanic from mattpocock/skills' `grilling`.
 Do NOT use for existing code (use `requesting-code-review`) or simple one-off tasks.
 tasks.
 
+> 与上游 `mattpocock/skills` 的关系：本 skill 已吸收其 `grilling` 的 frontier 轮次机制（作者行含出处），是 **Hermes 侧执行体**；Claude Code 侧请装上游三件套（grill-with-docs+grilling+domain-modeling），**勿与 grilling 同装**（触发词双匹配）。docs 半区（GLOSSARY.md/ADR 落纸）由 `domain-modeling` 承担，与本 skill 互补不重叠，两边都应安装。
+
 ## Prerequisites
 
 None. The skill works on any plan or raw idea.

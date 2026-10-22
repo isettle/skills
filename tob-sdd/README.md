@@ -51,8 +51,11 @@ tob-sdd/
 
 ```bash
 git clone git@github.com:isettle/skills.git   # 或 https://github.com/isettle/skills.git
-cp -R skills/tob-sdd/skills/* ~/.hermes/skills/
+cd skills
+cp -R tob-sdd/skills/{spec-kit-sdd,sdd-speckit-research,grill-me,domain-modeling,shadcn-admin-frontend} ~/.hermes/skills/
 # 有同名 skill 已存在时先备份再覆盖，或逐目录 diff 后合并
+# 故意【不装】grilling / grill-with-docs：grilling 的 frontier 机制已被 grill-me 吸收（同装双匹配触发词）；
+# grill-with-docs 是 Claude Code Skill 工具链的组合跳板，在 Hermes 上是死桩
 ```
 
 装完在会话里 `/skills` 或让 agent `skills_list` 可见即生效；agent 会按任务自动加载。
@@ -62,11 +65,12 @@ cp -R skills/tob-sdd/skills/* ~/.hermes/skills/
 SKILL.md 与 Claude Code 的 Agent Skills 格式相同，目录名即技能名。
 
 ```bash
-# 最简：把 tob-sdd/skills/<name>/ 逐个拷入 ~/.claude/skills/
-cp -R skills/tob-sdd/skills/* ~/.claude/skills/
+cd skills
+# 拷问三件套（组合层+机制+docs 纪律）一起装；故意【不装】grill-me（与 grilling 功能重叠，Hermes 专用执行体）
+cp -R tob-sdd/skills/{spec-kit-sdd,sdd-speckit-research,grill-with-docs,grilling,domain-modeling,shadcn-admin-frontend} ~/.claude/skills/
 ```
 
-> 注意：`grill-with-docs` 是上游 mattpocock 的**组合层**（仅 247 字节，正文一句「调 grilling + domain-modeling 两个 Skill」，且标 `disable-model-invocation: true`），依赖 Claude Code 的 Skill 工具链动态编排——三个目录必须一起拷，单独拷它不会生效。
+> 重叠关系一览：`grill-me`（Hermes 执行体）≈ `grilling`（上游机制，被其吸收）；`domain-modeling`（GLOSSARY/ADR 落纸纪律）与二者**互补不重叠**，两边都装；`grill-with-docs` 仅在 Claude Code 有编排意义。**同一 agent 里 grilling 与 grill-me 只装其一。**
 
 ### Codex / Qoder / Cursor 用户
 
