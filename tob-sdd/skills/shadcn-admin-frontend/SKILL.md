@@ -39,7 +39,7 @@ ToB 系统前端（React 19 + Vite + TS + Tailwind v4 + shadcn/ui + TanStack Que
 - 新版 CLI 组件 `import { cn } from "cn"`（独立 npm 包）而非 `@/lib/utils`——两者并存可正常构建，不必统一。
 - vite dev server 默认可能只听 IPv6 `[::1]`——`server` 配置加 `host:true`，否则 127.0.0.1 连接被拒，呈现「服务明明起了却连不上」的假象。
 - 登录跳转竞态（setToken+navigate 后被守卫弹回登录页）：见 references/spa-auth-guard.md，token 必须进 React state。
-- Playwright 在旧版 macOS（13 及以下）不支持新版，钉 `@playwright/test@1.49.1`；下载走 `PLAYWRIGHT_DOWNLOAD_HOST=https://npmmirror.com/mirrors/playwright/`，装 `chromium`。headless 默认跑的 `chromium-headless-shell` 组件在 mac13 常常下不下来（反复报 Executable doesn't exist … headless_shell）——别死磕重试装它，改在 playwright.config 的 `use.launchOptions` 加 `{ channel: "chromium" }`，复用已装的完整 Chromium 新无头模式，直接跑通。
+- Playwright 在旧版 macOS（13 及以下）不支持新版，钉 `@playwright/test@1.49.1`；下载走 `PLAYWRIGHT_DOWNLOAD_HOST=https://npmmirror.com/mirrors/playwright/`，装 `chromium`。headless 默认跑的 `chromium-headless-shell` 组件在旧版 macOS 上常常下不下来（反复报 Executable doesn't exist … headless_shell）——别死磕重试装它，改在 playwright.config 的 `use.launchOptions` 加 `{ channel: "chromium" }`，复用已装的完整 Chromium 新无头模式，直接跑通。
 - 后台 terminal 起长驻服务（vite/e2e 后端）时禁止管道接 `head -N`——head 读满即关管道，SIGPIPE 会杀死服务进程；长驻进程用 background=true 裸输出，需要看日志用 process poll。
 - execute_code 里 urllib 探测本地端口须 `build_opener(ProxyHandler({}))`——系统代理会拦截 127.0.0.1 并报 ConnectionRefused。
 - Tailwind v4 自定义 shadow/radius token（如 shadow-card）必须在 `@theme inline` 注册（`--shadow-card: var(--shadow-card)`）才生成 utility 类；build 后 grep dist CSS 验证 token 值真实产出——缺失时类名静默无效，页面看着「样式没生效」。

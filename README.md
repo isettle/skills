@@ -12,8 +12,14 @@
 - **Claude Code**：`cp -R <集合>/skills/* ~/.claude/skills/`（SKILL.md 格式兼容）
 - **Codex / Qoder / Cursor**：拷各自 `<集合>/materials/` 进项目仓库根（AGENTS.md 原生识别），无自动加载机制
 
-## 收录红线（入库前自查，零命中才 commit）
+## 收录红线（入库前必跑，零命中才 commit）
+
+```bash
+python3 scripts/sanitize_scan.py    # 命中即退出码 1，并列出文件:行号
+```
 
 - 公司名、真实项目名、内网域名/IP、服务器地址
 - 个人机器绝对路径（home 目录开头的路径）、凭据与凭据字样实值
 - 真实业务域例子（统一改写为电子商城等虚构域）
+
+新增敏感词直接往 `scripts/sanitize_scan.py` 的 `TOKENS`/`PATTERNS` 里加。
