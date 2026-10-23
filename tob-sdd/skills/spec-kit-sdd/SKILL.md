@@ -761,7 +761,7 @@ SDD 项目 spec 落定后，用户常以「新增功能 + 确认/推翻上轮【
 
 ## Clarify 阶段执行 pattern（/speckit-clarify 实跑验证，项目B 2026-10-15）
 
-官方命令模板要求逐问交互、每问等答再问下一问；本项目按用户习惯（批量拍板）一次 clarify 调用打包 ≤5 题、每题推荐项在前，一次 submitted 拿全部答案——题间独立才批量，某答案会改变后续问题含义时仍逐问。**choices 在任何 clarify 场景（不只冷启动范围问）都只接受纯字符串数组——传 {label,description,preview} 对象数组会被 schema 拒绝；选项说明内联进字符串本身**（本 skill 冷启动节第 3 条同款错误在修法拍板类提问上复发，两处同规）。执行要点：
+官方命令模板要求逐问交互、每问等答再问下一问；本项目按用户习惯（批量拍板）一次 clarify 调用打包 ≤5 题、每题推荐项在前，一次 submitted 拿全部答案——题间独立才批量，某答案会改变后续问题含义时仍逐问。**choices 在任何 clarify 场景（不只冷启动范围问）都只接受纯字符串数组——传 {label,description,preview} 对象数组会被 schema 拒绝；选项说明内联进字符串本身**（本 skill 冷启动节第 3 条同款错误在修法拍板类提问上复发，两处同规）。**升级形态：载荷已确认良构（纯字符串 choices、对象数组形状正确）仍连续 2 次以上被同一 schema 报错拒绝时，停止重试表单——把选项编号列成正文文字发给用户回编号拍板；重试循环只烧轮次，文字选项与表单对用户等价**（触发 loop warning 即已到该判据）。执行要点：
 
 1. **问题队列来源＝现存开放标记，不是重扫全类**：`grep -rn "待复核\|由 plan 定\|NEEDS CLARIFICATION" specs/*/spec.md` 收集（spec 多轮拍板后 NC 通常已=0，开放项以【待复核】与"阈值归 plan 定"形式散落）；按 (影响×不确定) 取前 5 高影响项，低影响项（邮箱分隔符之类 HOW 细节）不占额度、直接归 plan。
 2. **用户可用自由文本推翻整题选项框架**（实踩：容差半径五选项，用户答"从第三方平台同步停留时间值"＝判定输入源整个换掉）：按最新指令定案处理，同轮级联——FR 定义重写 + Edge 改口径 + Key Entities 属性来源注记 + 总纲全局约定行 + 受影响原型页（示例数据/标签/注记）+ PREVIEW 决策日志；被推翻的"由 plan 定"条款原地写废止线（编号/条目保留），Assumptions 里【待复核】项被确认的改写成"Clarify Cx 确认，不再是假设"。
@@ -828,7 +828,7 @@ Owner 质疑「库里数与页面数对不上/是不是精度损耗」＝三类�
 产出 MUST 三档分类＋全部从源文 grep 取证（禁凭记忆答题）：①**正式项**——逐项列 触发/动作/写范围/失败语义/溯源 FR 编号 五列，数字核算附公式（如 频次×设备存量≤平台日配额、频控下轮耗时）；②**准实现层节律**——token 续期、窗口取数参数这类系统内部时钟，标明归属层（adapter/HOW），不混进业务项计数；③**显式非项**——Owner 易误记的排除清单逐条点名（「仅手动触发」「进页实时算无定时」「随批次执行无独立定时器」），防下轮被重新问起。收尾两块：盘点暴露的依赖项回注对应 CHK 编号并升级其阻塞注（如时区值未定→cron 表达式不可实现）；给出「一句话评审结论」定调（几个真项、哪个不可实现、哪个口径冲突）。用户评审这类清单时会追问看不懂的黑话——同 checklist「就地重写条目」规则处理。
 
 ## Workflow order
-`/speckit-constitution` → `/speckit-specify` (or hand-write spec.md) →
+**`specs/NNN-*/intent.md`（团队扩展、GI 门禁＝四段齐备非空 + grill-me＋domain-modeling 拷问至 frontier 清空；置于流程最前，细节见 sdd-speckit-research 的 team-extension 条）** → `/speckit-constitution` → `/speckit-specify` (or hand-write spec.md) →
 **Spec Kit Preview (低保真原型，用户新增的固定步骤，见下)** →
 **`/speckit-clarify`（用户 2026-10-14 定为必做，位置＝原型之后、plan 之前）** →
 `/speckit-plan` → **`/speckit-checklist`（用户 2026-10-14 定为必做，紧跟 plan）** →
