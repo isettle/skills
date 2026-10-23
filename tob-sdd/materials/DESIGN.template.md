@@ -10,20 +10,21 @@
 
 ### 0.1 候选清单
 
-| 维度 | 方案A（默认推荐）：shadcn-admin | 方案B：HeroUI v3 |
+| 维度 | 方案A：shadcn-admin | 方案B（推荐）：HeroUI v3 ＋ Pro dashboard 模板 |
 |---|---|---|
-| 组件来源 | shadcn/ui 源码复制进仓（自有可控）＋ shadcn-admin 后台模板 | `@heroui/react` 库依赖（batteries-included，随库升级） |
+| 组件来源 | shadcn/ui 源码复制进仓（自有可控）＋ shadcn-admin 后台模板 | `@heroui/react` 库依赖（batteries-included，随库升级）＋ **HeroUI Pro `dashboard` 模板**作后台基线 |
 | 底座 | Radix primitives ＋ Tailwind v4 | React Aria Components ＋ Tailwind v4 |
 | 无障碍 | Radix 级 | React Aria（W3C/AT 实测口径更强） |
-| 后台布局壳 | 现成（侧栏/顶栏/⌘K/登录页，§5 直接可用） | 无同定位开源壳，侧栏/顶栏/⌘K 需自建 |
-| 定制方式 | CSS 变量 token ＋ 改 `components/ui` 源码 | 主题 CSS 变量（`@heroui/styles/themes/default`）＋ BEM 类钩子 |
+| 后台布局壳 | 现成（侧栏/顶栏/⌘K/登录页，§5 直接可用） | **由 Pro dashboard 模板提供**（侧栏/顶栏/KPI 卡/图表卡/数据表齐全；实演 template-dashboard.heroui.pro） |
+| 定制方式 | CSS 变量 token ＋ 改 `components/ui` 源码 | 主题 CSS 变量（themes 编辑器/heroui.com/cn/themes?template=dashboard 可调强调色、圆角、字体）＋ BEM 类钩子 |
 | CN 网络 | 全链路已验证（npmmirror） | npm 装包走 npmmirror 可行；在线脚手架不保证，改手动安装 |
 | 团队实跑经验 | 两个内部 ToB 项目验证，§12 踩坑登记齐 | 本包无实跑经验，接入首季按 spike 对待 |
-| AI 工具链 | — | 官方 MCP server、llms.txt、`npx heroui-cli agents-md` |
+| AI 工具链 | — | 官方 MCP server、llms.txt、`npx heroui-cli agents-md`；Pro 另含 Pro Skills/MCP |
 | 版本成熟度 | shadcn-admin 稳定 | v3.2.6（2026-10 npm 核实）；compound pattern 迁移刚收尾，API 仍在动 |
-| 主要风险 | 组件副本的维护成本 | 迭代快＋无后台壳＋经验空白 |
+| 授权成本 | 全开源免费（Apache/MIT） | 组件库开源免费；**dashboard 模板属 HeroUI Pro 付费资产**（perpetual license，Web Hero/Super Hero 档，可选年续期，见 heroui.pro/pricing） |
+| 主要风险 | 组件副本的维护成本 | Pro 许可采购与合规边界（团队席位/分发）＋ v3 API 仍在动 ＋ 经验空白 |
 
-推荐＝方案A：布局外壳现成、UI-GATE 资产（§2–§12）零迁移成本、双项目实跑背书；方案B 适合追求 a11y 上限与设计系统一致性、且接受先用 1 页 spike 验证的场景。
+推荐＝**方案B**：Pro dashboard 模板直接补齐后台壳（此前"B 无壳"的最大工作量项不成立），React Aria a11y 上限与设计系统一致性最好，主题编辑器换皮路径官方化。**前提＝Owner 接受 Pro 付费授权并先走 1 页 spike（B.2 第 1 条）**。方案A 保留为免授权、零迁移成本的退路；两者 UI-GATE 纪律相同。
 
 ### 0.2 拍板与落位规则
 
@@ -37,7 +38,7 @@
 
 | 项 | 值 |
 |---|---|
-| 已选方案 | 待拍板（默认候选 A） |
+| 已选方案 | 待拍板（推荐候选 B；正文默认＝A，选 B 按附录 B 重写） |
 | 拍板日期 / Owner | `<待填>` |
 | 重皮依据（参考图/品牌色） | `<待填，无则「沿用默认体系」>` |
 
@@ -248,12 +249,13 @@ root 16px 不缩字号；单屏信息不过载（一屏一个主任务区）；T
 - 主题＝纯 CSS 变量（无 CSS-in-JS runtime）：`@heroui/styles/themes/default` 提供变量表，`index.css` 覆写变量即换皮；组件暴露 BEM 类钩子（`.card__*`、`.input__*` 等）供局部覆写。**本文件 §2 的色彩语义在 HeroUI 变量表中多数有对应槽位（bg/fg/surface 系），重写 §2 时逐 token 映射，不得留双轨。**
 - 按需引入 CSS 子路径（`./components/*.css`、`./utilities`、`./variants`、`./base`）存在官方文档配方缺 utilities+variants prelude 导致编译失败的已知缺陷（上游 v3.2.6 已修文档并给出完整配方）——**接入时按当期文档的全量 prelude 抄，勿凭记忆拼**。
 - Surface 组件（default/secondary/tertiary/quaternary 四变体）以 context 让表单类控件自动切 on-surface 样式——卡片/弹层内的输入件 MUST 包在对应 Surface 变体里，否则底色与描边不匹配。
-- 后台布局壳无官方/社区现成（与 shadcn-admin 不同定位）：侧栏、顶栏、⌘K 命令面板、登录页需以 HeroUI 原语（Dialog/Menu/Navbar 类）自建——**这是选B 的最大工作量项，呈报时必须点破**。
-- AI 工具链：官方 MCP server（`@heroui/react-mcp`）、llms.txt（heroui.com/llms.txt）、`npx heroui-cli agents-md` 生成 agent 规则文件；写 HeroUI 代码前 MUST 用 MCP/llms.txt 核对当期 API，禁按 v2 记忆写码（v2 dot-notation 已废）。
+- 后台布局壳＝**HeroUI Pro `dashboard` 模板**（实演 template-dashboard.heroui.pro）：侧栏导航＋顶栏＋KPI 统计卡＋图表卡＋可排序数据表＋筛选/列设置，结构完整可直接作基线；**注意它是付费 Pro 资产**——许可为 perpetual license（Web Hero/Super Hero 档，含 Pro 组件/模板/AI 工具，更新可续可不续），**采购前只可看 demo 定形态，MUST NOT 把模板源码拷进仓库**（合规红线，走一次团队采购拍板）。开源退路＝以 HeroUI 原语自建壳（工作量回到方案A 对比表旧口径）。
+- 主题编辑器（heroui.com/cn/themes?template=dashboard）可在浏览器里实时调强调色/基础色/字体/圆角/表单圆角并导出主题 token——§2 色彩表换皮时用它对齐预览，再落 `index.css` 变量覆写。
+- AI 工具链：官方 MCP server（`@heroui/react-mcp`）、llms.txt（heroui.com/llms.txt）、`npx heroui-cli agents-md` 生成 agent 规则文件；Pro 另含 Pro Skills/MCP。写 HeroUI 代码前 MUST 用 MCP/llms.txt 核对当期 API，禁按 v2 记忆写码（v2 dot-notation 已废）。
 
 ### B.2 选型必配纪律
 
-1. **§0.3 记拍板后先 spike**：用 1 个真实页面（登录页或任一表格页）走通「装包→主题变量重皮→表格+弹层→生产构建」再全量接入；spike 不达标＝回到 §0 重拍，不得带病推广。
+1. **§0.3 记拍板后先 spike**：用 1 个真实页面（登录页或任一表格页）走通「装包→主题变量重皮→表格+弹层→生产构建」再全量接入；spike 不达标＝回到 §0 重拍，不得带病推广。**选 B 且走 Pro 路线＝spike 前采购拍板先行**（席位/价格/合规边界经 Owner 确认，模板凭 license 拉取，见 B.1），未采购只能以开源原语自建壳做 spike。
 2. **升级锁版**：`@heroui/*` 钉精确版本（compound pattern 迁移期 API 有 breaking 史），升版走判例登记。
 3. **a11y 收益落地**：React Aria 焦点环只对键盘导航出现（v3.2.6 起全库清扫）——冒烟断言改为「鼠标点击无 ring、键盘 Tab 有 ring」替代方案A 的 ring 检查项。
 4. **视觉铁律不换血**：§8 密度（root 16px、不缩字号）与 ToB 黑白灰克制配色经主题变量实现；HeroUI 默认主题含高饱和色相，**接入第一步＝按 §2 色值表覆写主题变量**，未覆写＝G2' 不过。

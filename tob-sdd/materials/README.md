@@ -19,7 +19,7 @@
 1. **先写 `intent.md`**：复制 `intent.template.md` → 手建目录 `specs/001-<slug>/intent.md`，四段填齐后跑 grill-me＋domain-modeling 拷问（过 GI 门禁）。后续每个 feature 同样先 intent.md。
 2. 复制 `AGENTS.template.md` → 仓库根 `AGENTS.md`，**填齐 §P 项目参数表**（任一项空着必须先问 Owner，禁止按默认值自行决定）。
 3. 复制 `constitution.template.md` → `.specify/memory/constitution.md`，替换 `<项目名>`，跑 `/speckit-constitution` 校验格式。
-4. 复制 `DESIGN.template.md` → 仓库根 `DESIGN.md`。**§0 是方案审批制**：plan 首轮把候选表（A＝shadcn-admin 默认推荐；B＝HeroUI v3，要点见附录 B）呈报 Owner 选一套并记入 §0.3，未拍板＝UI-GATE 不解除。选 A 后不改皮可直接沿用「Soft-UI 黑白灰体系」；有参考图/品牌色的按参考图重皮（token 层→组件层→布局层→页面层顺序落地），重皮后 §2/§3/§4 数值必须全部替换为实际值；选 B 按附录 B 重写 §2–§9 并重跑 G2'。
+4. 复制 `DESIGN.template.md` → 仓库根 `DESIGN.md`。**§0 是方案审批制**：plan 首轮把候选表（A＝shadcn-admin 免授权退路；B＝HeroUI v3＋Pro dashboard 模板，推荐项，要点见附录 B——含 Pro 付费授权前提）呈报 Owner 选一套并记入 §0.3，未拍板＝UI-GATE 不解除。选 A 后不改皮可直接沿用「Soft-UI 黑白灰体系」；有参考图/品牌色的按参考图重皮（token 层→组件层→布局层→页面层顺序落地），重皮后 §2/§3/§4 数值必须全部替换为实际值；选 B 按附录 B 重写 §2–§9 并重跑 G2'。
 5. `/speckit-specify` 时显式提供 intent 所在目录（`SPECIFY_FEATURE_DIRECTORY`），然后按 AGENTS §3 引擎流程走：`specify → 原型 → clarify → plan → checklist → (analyze) → tasks → implement → converge`。
 
 ## 三个物料的权威分工（一图记牢）
