@@ -1,12 +1,51 @@
-# DESIGN.md — <项目名> 前端设计规范（ToB 后台 · Soft-UI 黑白灰默认体系）
+# DESIGN.md — <项目名> 前端设计规范（ToB 后台 · 多方案候选 · Owner 审批制）
 
 **状态**: Owner 拍板生效后，本文件是 UI 唯一真相源——产出与本文冲突时改代码，不反向放宽本文（AGENTS UI-GATE）。
-**基底**: shadcn/ui（new-york 风格）＋ Tailwind v4 CSS 变量＋ shadcn-admin 布局；所有页面 MUST 经 `@/components/ui` 组件与本文件 token 呈现，禁止页面内私调硬编码色值。
-**换皮指引**: 有参考图/品牌色时，§2–§4 的数值全部替换为实际值并重走查；§7/§11/§12 的纪律条款不随换皮变动。
+**方案审批制**: 前端技术与 UI 以**多套候选方案**呈报 Owner 审批、选定一套后生效——候选清单与拍板规则见 §0；§1–§12 为**已选方案的正文**（模板默认＝方案A），方案B 的正文要点见附录 B。
+**换皮指引**: 有参考图/品牌色时，§2–§4 的数值全部替换为实际值并重走查；§7/§11 的纪律条款不随换皮变动。
 
 ---
 
-## 1. 设计定性
+## 0. 方案审批（plan 首轮呈报，Owner 选定一套）
+
+### 0.1 候选清单
+
+| 维度 | 方案A（默认推荐）：shadcn-admin | 方案B：HeroUI v3 |
+|---|---|---|
+| 组件来源 | shadcn/ui 源码复制进仓（自有可控）＋ shadcn-admin 后台模板 | `@heroui/react` 库依赖（batteries-included，随库升级） |
+| 底座 | Radix primitives ＋ Tailwind v4 | React Aria Components ＋ Tailwind v4 |
+| 无障碍 | Radix 级 | React Aria（W3C/AT 实测口径更强） |
+| 后台布局壳 | 现成（侧栏/顶栏/⌘K/登录页，§5 直接可用） | 无同定位开源壳，侧栏/顶栏/⌘K 需自建 |
+| 定制方式 | CSS 变量 token ＋ 改 `components/ui` 源码 | 主题 CSS 变量（`@heroui/styles/themes/default`）＋ BEM 类钩子 |
+| CN 网络 | 全链路已验证（npmmirror） | npm 装包走 npmmirror 可行；在线脚手架不保证，改手动安装 |
+| 团队实跑经验 | 两个内部 ToB 项目验证，§12 踩坑登记齐 | 本包无实跑经验，接入首季按 spike 对待 |
+| AI 工具链 | — | 官方 MCP server、llms.txt、`npx heroui-cli agents-md` |
+| 版本成熟度 | shadcn-admin 稳定 | v3.2.6（2026-10 npm 核实）；compound pattern 迁移刚收尾，API 仍在动 |
+| 主要风险 | 组件副本的维护成本 | 迭代快＋无后台壳＋经验空白 |
+
+推荐＝方案A：布局外壳现成、UI-GATE 资产（§2–§12）零迁移成本、双项目实跑背书；方案B 适合追求 a11y 上限与设计系统一致性、且接受先用 1 页 spike 验证的场景。
+
+### 0.2 拍板与落位规则
+
+1. **时机**：plan 首轮技术栈批量问的 UI-GATE 检查环节呈报本表；Owner 未拍板前 §1–§12 保持方案A 默认、**UI-GATE 不解除、前端实现禁止开工**。
+2. **落点**：拍板结果写 §0.3；方案选择＝HOW 层——进 DESIGN.md 与 plan Technical Context，MUST NOT 进 spec（AGENTS 落位判据）。
+3. **选A**＝正文不动，§0.3 记裁决；**选B**＝按附录 B 重写 §2–§9 与检查清单，重跑 G2'（checklist）后再开工。
+4. **中途换方案**＝判例登记（取下一个全局未用号）＋正文整体重写＋G2' 重跑，spec 零改动；禁止口头切换。
+5. **新增候选**＝向本包模板追加附录并走一次包评审，不在项目内私加。
+
+### 0.3 拍板记录
+
+| 项 | 值 |
+|---|---|
+| 已选方案 | 待拍板（默认候选 A） |
+| 拍板日期 / Owner | `<待填>` |
+| 重皮依据（参考图/品牌色） | `<待填，无则「沿用默认体系」>` |
+
+---
+
+## 1. 设计定性（方案A · Soft-UI 黑白灰）
+
+**基底**: shadcn/ui（new-york 风格）＋ Tailwind v4 CSS 变量＋ shadcn-admin 布局；所有页面 MUST 经 `@/components/ui` 组件与本文件 token 呈现，禁止页面内私调硬编码色值。
 
 Soft-UI 轻拟物＋扁平：**无硬边框，靠白色卡片＋大圆角＋极柔环境阴影与暖灰背景拉开层次**。留白充足、冷静克制、无高饱和品牌色：主按钮近黑、激活态白卡浮起；仅保留功能语义色（成功绿/失败红/警告琥珀，全部低饱和莫兰迪调）。
 
@@ -194,3 +233,27 @@ root 16px 不缩字号；单屏信息不过载（一屏一个主任务区）；T
 - [ ] 表单非空时关闭有丢弃确认？
 - [ ] 空/加载/错误态有处理？
 - [ ] 无高饱和装饰色、无庆祝动画？
+
+---
+
+## 附录 B. 方案B（HeroUI v3）正文要点——Owner 选定 B 后据此重写 §2–§9
+
+> 本附录＝候选方案的呈现要点与接入纪律，非最终正文。选定 B 时：§2–§4 token 表、§5 布局、§6 图标、§7 动效、§9 落地映射 MUST 依此重写并补实际色值/类名走查；§10 移动端、§11 交互行为规则、§12 通用纪律（四态、丢弃确认、零黑话、不庆祝、≤6 主列、≤3 主操作、不缩字号）**原样保留**——它们是跨方案铁律，不随换 UI 失效。§12 中 shadcn 专属条目（Dialog `w-full`、`ui/*.tsx` 覆写）随重写替换为 HeroUI 对应踩坑登记（接入初期为空，实跑后追加）。
+
+### B.1 技术事实（2026-10 经 npm registry / 官方仓库核实）
+
+- 包＝`@heroui/react` ＋ `@heroui/styles`（最新 3.2.6，Apache-2.0）；前代名 NextUI，v2 与 v3 API 不兼容，**只认 v3**。
+- peer 需显式安装：`react/react-dom >=19`、`tailwindcss >=4`、`react-aria`、`react-aria-components`、`@react-aria/ssr`、`@react-aria/utils`、`@internationalized/date`。装包走 npmmirror（`npm install @heroui/styles @heroui/react` 及 peers）。
+- 组件 API＝compound/named pattern（`Card`/`Tabs` 配 `Root` 等子件；官方同时支持简写 `Component` 替代 `Component.Root`）；React 19 ref-as-prop，无 forwardRef 包装。
+- 主题＝纯 CSS 变量（无 CSS-in-JS runtime）：`@heroui/styles/themes/default` 提供变量表，`index.css` 覆写变量即换皮；组件暴露 BEM 类钩子（`.card__*`、`.input__*` 等）供局部覆写。**本文件 §2 的色彩语义在 HeroUI 变量表中多数有对应槽位（bg/fg/surface 系），重写 §2 时逐 token 映射，不得留双轨。**
+- 按需引入 CSS 子路径（`./components/*.css`、`./utilities`、`./variants`、`./base`）存在官方文档配方缺 utilities+variants prelude 导致编译失败的已知缺陷（上游 v3.2.6 已修文档并给出完整配方）——**接入时按当期文档的全量 prelude 抄，勿凭记忆拼**。
+- Surface 组件（default/secondary/tertiary/quaternary 四变体）以 context 让表单类控件自动切 on-surface 样式——卡片/弹层内的输入件 MUST 包在对应 Surface 变体里，否则底色与描边不匹配。
+- 后台布局壳无官方/社区现成（与 shadcn-admin 不同定位）：侧栏、顶栏、⌘K 命令面板、登录页需以 HeroUI 原语（Dialog/Menu/Navbar 类）自建——**这是选B 的最大工作量项，呈报时必须点破**。
+- AI 工具链：官方 MCP server（`@heroui/react-mcp`）、llms.txt（heroui.com/llms.txt）、`npx heroui-cli agents-md` 生成 agent 规则文件；写 HeroUI 代码前 MUST 用 MCP/llms.txt 核对当期 API，禁按 v2 记忆写码（v2 dot-notation 已废）。
+
+### B.2 选型必配纪律
+
+1. **§0.3 记拍板后先 spike**：用 1 个真实页面（登录页或任一表格页）走通「装包→主题变量重皮→表格+弹层→生产构建」再全量接入；spike 不达标＝回到 §0 重拍，不得带病推广。
+2. **升级锁版**：`@heroui/*` 钉精确版本（compound pattern 迁移期 API 有 breaking 史），升版走判例登记。
+3. **a11y 收益落地**：React Aria 焦点环只对键盘导航出现（v3.2.6 起全库清扫）——冒烟断言改为「鼠标点击无 ring、键盘 Tab 有 ring」替代方案A 的 ring 检查项。
+4. **视觉铁律不换血**：§8 密度（root 16px、不缩字号）与 ToB 黑白灰克制配色经主题变量实现；HeroUI 默认主题含高饱和色相，**接入第一步＝按 §2 色值表覆写主题变量**，未覆写＝G2' 不过。

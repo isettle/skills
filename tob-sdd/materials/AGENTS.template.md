@@ -139,7 +139,7 @@
 
 **工程纪律**：
 
-- **UI 纪律（硬门禁 UI-GATE）**：所有 UI 实现 MUST 遵循仓库根目录的 `DESIGN.md`——生成或修改任何前端代码之前 MUST 先通读它。**仓库根无 `DESIGN.md` ＝ 不允许写任何前端代码**（先补 DESIGN.md 并经 Owner 确认，再开工）。产出 UI 与 DESIGN.md 冲突时按纪律条款改代码，**不反向放宽 DESIGN.md**（DESIGN.md 由 Owner 拍板产生）。页面级交互规则（弹层/抽屉/确认/字段布局/四态）落 `DESIGN.md` §11 + `preview/` 原型，不落 spec。
+- **UI 纪律（硬门禁 UI-GATE）**：所有 UI 实现 MUST 遵循仓库根目录的 `DESIGN.md`——生成或修改任何前端代码之前 MUST 先通读它。**仓库根无 `DESIGN.md` ＝ 不允许写任何前端代码**（先补 DESIGN.md 并经 Owner 确认，再开工）。**前端技术与 UI 方案 MUST 经 `DESIGN.md` §0 多方案候选呈报（A＝shadcn-admin 默认；B＝HeroUI v3 见附录 B；可扩展）由 Owner 选定一套并登记 §0.3——未选定＝门禁不解除；方案选择属 HOW 层，MUST NOT 进 spec。**产出 UI 与 DESIGN.md 冲突时按纪律条款改代码，**不反向放宽 DESIGN.md**（DESIGN.md 由 Owner 拍板产生）。页面级交互规则（弹层/抽屉/确认/字段布局/四态）落 `DESIGN.md` §11 + `preview/` 原型，不落 spec。
 - **data-model 纪律**：①表名 MUST 单数（`user`/`product`/`order_record`，禁复数）；②表名与每个字段的 COMMENT MUST **严格等于** spec Key Entities 的属性原文——MUST NOT 夹带 FR 编号、判例、单位、实现注记；枚举值域、JSON 元素结构、批次/去重/互斥等实现性列另立「非实体属性列 + HOW 字典」节承接。③要新增字段/原因类内容 MUST 先人工判断→写 spec Key Entities→再落库（零虚构红线）。④**状态类字段 COMMENT MUST 含具体枚举值**（如【在线/离线】）；**JSON 类字段 COMMENT MUST 含元素结构说明**；缺者两步走：先完善 spec Key Entities 属性括注、再回补 data-model 字段注释。spec 无定义或含义模糊的，MUST NOT 自行编造命名/注释/字段，MUST 停下交 Owner 确认；确认要补实体属性时先改 spec 再回 data-model。
 - **后端工程结构纪律**：采用薄入口 + 按领域分层的内部包结构（如 Go `cmd/` + `internal/<模块>/{handler,usecase,repository,model}`），**依赖严格向内**（handler→usecase→repository→model；跨域仅经 usecase 暴露的接口），**MUST NOT 在业务包之外放置业务逻辑**（入口只做配置加载/装配/启动；`pkg/` 一类外部公共目录禁装业务代码）。第三方平台适配、地图路由、cron 等归基础设施目录，业务判定一律收敛在领域 usecase。
 - **contracts/api.md 纪律**：plan 阶段生成的 `contracts/api.md` MUST 是**完整 API 接口文档**，必含五段：① 公共请求头＋请求体约定；② 公共响应头＋响应体约定；③ 认证约定；④ 错误码约定；⑤ API 接口文档——每个接口列出：所属模块、名称、描述、路由、方法、可选请求头、请求体。**所有 header 与 payload 字段 MUST 详细列出＝字段名称、字段类型、字段备注、是否必须**，MUST NOT 只写示意 JSON。响应体默认统一 `{code: int, data: {}, message: string}`；**code＝0 为成功**，非 0 为错误码（码表在错误码约定段列全）。
@@ -228,7 +228,7 @@
 | 代码审查流程 | 检查是否有 PR/MR 流程，禁止直推主分支 | 新项目属改进项 |
 | pre-commit hook | 检查 `.pre-commit-config.yaml` | 新项目属改进项 |
 | 敏感信息未入库 | `git log -p \| grep -iE "password|secret|api_key"` 应为 0；`.gitignore` 排除 `.env` | 硬性要求 |
-| UI 纪律（对应 §6） | 写/改任何前端代码前先读仓库根 `DESIGN.md`；**仓库根无 `DESIGN.md` ＝ 不允许写任何前端代码** | **UI-GATE** |
+| UI 纪律（对应 §6） | 写/改任何前端代码前先读仓库根 `DESIGN.md`；**仓库根无 `DESIGN.md` ＝ 不允许写任何前端代码**；`DESIGN.md` §0 方案已由 Owner 选定并登记 §0.3（未选定＝门禁不解除） | **UI-GATE** |
 | 前端与 DESIGN.md 一致 | 抽查色值是否全走 token（无硬编码 `#`/`rgb()`）、状态用 Badge 非纯文字、Dialog 内 Card 有 `w-full` | §11/§12 |
 
 **使用示例**：分析某模块是否合规时，必须按 9.1 表格逐条检查，不得跳过"原型覆盖率"行。如发现 US 无原型，立即标红并上报，不得以"代码已写完"为由放行。
