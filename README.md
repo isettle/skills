@@ -5,10 +5,11 @@
 | 目录 | 类型 | 内容 |
 |---|---|---|
 | [`tob-sdd/`](tob-sdd/README.md) | ToB 后台 × spec-kit SDD 流程 | 5 个执行技能（spec-kit-sdd / sdd-speckit-research / grill-me / domain-modeling / shadcn-admin-frontend）＋ 6 件治理物料模板（AGENTS/宪法/DESIGN/intent/落位与回写规则） |
+| [`multi-agent-global-agents/`](multi-agent-global-agents/SKILL.md) | 多 Agent 协作全局规则 | 机器级 GLOBAL-AGENTS 模板（Agent 花名册登记制／机器默认根／同步·交接·部署·裁决纪律）＋ 装法与踩坑 |
 
 ## 安装方式
 
-- **Hermes**：`cp -R <集合>/skills/* ~/.hermes/skills/`
+- **Hermes**：`cp -R <集合>/skills/* ~/.hermes/skills/`（如 `tob-sdd`）；单技能顶层目录直接 `cp -R multi-agent-global-agents ~/.hermes/skills/`
 - **Claude Code**：`cp -R <集合>/skills/* ~/.claude/skills/`（SKILL.md 格式兼容）
 - **Codex / Qoder / Cursor**：拷各自 `<集合>/materials/` 进项目仓库根（AGENTS.md 原生识别），无自动加载机制
 
