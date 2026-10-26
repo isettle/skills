@@ -85,6 +85,7 @@ cp -R tob-sdd/skills/{spec-kit-sdd,sdd-speckit-research,grill-me,domain-modeling
 ## 维护约定
 
 - 本目录（isettle/skills 仓库的 `tob-sdd/`）是**唯一分发源**；各人本机 skills/ 与项目内物料是消费副本。
+- 版本发布走 `CHANGELOG.md`（Keep a Changelog 格式）：变更随手记入 `[Unreleased]`，发版时归段＋打附注 tag＋push 验证；当前发布版＝**v0.1（2026-10-23）**。
 - 流程规则变化（门禁、回写分类、落位判据）改 `materials/` 并走一次团队评审；执行经验（pattern、踩坑）由各人会话沉淀后 PR 合入 `skills/`。
 - 提交前跑脱敏自查：真实凭据 / 个人绝对路径 / 内网主机 IP 不得入库（示例用 `<待填>` 与电子商城虚构数据）。
 - commit message 禁 conventional 前缀（`feat:`/`fix:`），一行摘要＋要点列表；commit 后 pull --rebase＋push，`rev-parse HEAD == origin/master` 验证。
