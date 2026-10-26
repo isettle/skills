@@ -10,21 +10,21 @@
 
 ### 0.1 候选清单
 
-| 维度 | 方案A：shadcn-admin | 方案B（推荐）：HeroUI v3 ＋ Pro dashboard 模板 |
+| 维度 | 方案A：shadcn-admin（satnaing/shadcn-admin） | 方案B（推荐）：Ant Design Pro v6（ant-design/ant-design-pro） |
 |---|---|---|
-| 组件来源 | shadcn/ui 源码复制进仓（自有可控）＋ shadcn-admin 后台模板 | `@heroui/react` 库依赖（batteries-included，随库升级）＋ **HeroUI Pro `dashboard` 模板**作后台基线 |
-| 底座 | Radix primitives ＋ Tailwind v4 | React Aria Components ＋ Tailwind v4 |
-| 无障碍 | Radix 级 | React Aria（W3C/AT 实测口径更强） |
-| 后台布局壳 | 现成（侧栏/顶栏/⌘K/登录页，§5 直接可用） | **由 Pro dashboard 模板提供**（侧栏/顶栏/KPI 卡/图表卡/数据表齐全；实演 template-dashboard.heroui.pro） |
-| 定制方式 | CSS 变量 token ＋ 改 `components/ui` 源码 | 主题 CSS 变量（themes 编辑器/heroui.com/cn/themes?template=dashboard 可调强调色、圆角、字体）＋ BEM 类钩子 |
-| CN 网络 | 全链路已验证（npmmirror） | npm 装包走 npmmirror 可行；在线脚手架不保证，改手动安装 |
-| 团队实跑经验 | 两个内部 ToB 项目验证，§12 踩坑登记齐 | 本包无实跑经验，接入首季按 spike 对待 |
-| AI 工具链 | — | 官方 MCP server、llms.txt、`npx heroui-cli agents-md`；Pro 另含 Pro Skills/MCP |
-| 版本成熟度 | shadcn-admin 稳定 | v3.2.6（2026-10 npm 核实）；compound pattern 迁移刚收尾，API 仍在动 |
-| 授权成本 | 全开源免费（Apache/MIT） | 组件库开源免费；**dashboard 模板属 HeroUI Pro 付费资产**（perpetual license，Web Hero/Super Hero 档，可选年续期，见 heroui.pro/pricing） |
-| 主要风险 | 组件副本的维护成本 | Pro 许可采购与合规边界（团队席位/分发）＋ v3 API 仍在动 ＋ 经验空白 |
+| 组件来源 | shadcn/ui 源码复制进仓（自有可控）＋ shadcn-admin 后台模板 | `antd` 6 库依赖 ＋ ProComponents ＋ Pro 官方脚手架（v6） |
+| 底座 | Radix primitives ＋ Tailwind v4 | React 19 / Umi Max 4 / antd 6 / utoopack（构建可选 utoo 或 Umi 常规） |
+| 无障碍 | Radix 级 | antd 内建 a11y（官方维护，中文语境成熟） |
+| 后台布局壳 | 现成（侧栏/顶栏/⌘K/登录页，§5 直接可用） | 现成且更全：Dashboard（Analysis/Monitor/Workplace）/Form 三式/List 四式/Profile/Result/Exception/Account/登录注册——官方模板块模板（preview.pro.ant.design 实演） |
+| 定制方式 | CSS 变量 token ＋ 改 `components/ui` 源码 | ConfigProvider design token（Seed→Map→Alias 三层）＋ `cssVar` 运行时变量；**本包要求：默认主题＝shadcn token 映射表（§2/§4 值灌入 Seed/Alias token），且 MUST 支持动态主题（运行时切换）**——映射表与切换机制见附录 B |
+| CN 网络 | 全链路已验证（npmmirror） | antd 生态国内原生友好：npmmirror/淘宝源齐、文档国内可达、团队中文经验多 |
+| 团队实跑经验 | 两个内部 ToB 项目验证，§12 踩坑登记齐 | 本包无实跑经验，接入首季按 spike 对待；但 antd 为国内 ToB 后台事实标准，招人/协作成本最低 |
+| AI 工具链 | — | **仓库自带 agent 资产**：根 `AGENTS.md`＋`.agents/skills`（symlink→`.claude/skills`：`antd`、`pro-upgrade` 两技能；antd 技能含 `@ant-design/cli` 七工具 list/info/doc/demo/token/semantic/changelog ＋ MCP server 模式）；官方另有 llms.txt、design.md（google-labs 格式）、MCP——AI 编码前 MUST 读仓库 skills（B.2 第 4 条） |
+| 版本成熟度 | shadcn-admin 稳定 | antd 6.6.7 / Pro v6（2026-10 核实，MIT）；v5→v6 迁移期 API 有变，官方带 pro-upgrade 技能承接 |
+| 授权成本 | MIT 免费 | MIT 免费（模板/脚手架全开源，无付费墙） |
+| 主要风险 | 组件副本的维护成本 | Umi Max 框架绑定（路由/构建随 Umi；纯 Vite＋antd 属另一形态需另拍）＋ shadcn 映射主题与 antd 原生观感差异需走查 ＋ 经验空白 |
 
-推荐＝**方案B**：Pro dashboard 模板直接补齐后台壳（此前"B 无壳"的最大工作量项不成立），React Aria a11y 上限与设计系统一致性最好，主题编辑器换皮路径官方化。**前提＝Owner 接受 Pro 付费授权并先走 1 页 spike（B.2 第 1 条）**。方案A 保留为免授权、零迁移成本的退路；两者 UI-GATE 纪律相同。
+推荐＝**方案B**：后台壳最全且全免费（无 Pro 授权门槛）、AI 编码资产官方内建（agent skills＋CLI＋MCP 让"禁凭记忆写码"有工具可执行）、国内 ToB 语境协作与招人成本最低。shadcn 视觉纪律经 B.1 映射表灌入 token，不换血。**方案A 保留为轻量退路**（不想引 Umi 全家桶时用）。两者 UI-GATE 纪律相同。
 
 ### 0.2 拍板与落位规则
 
@@ -237,25 +237,40 @@ root 16px 不缩字号；单屏信息不过载（一屏一个主任务区）；T
 
 ---
 
-## 附录 B. 方案B（HeroUI v3）正文要点——Owner 选定 B 后据此重写 §2–§9
+## 附录 B. 方案B（Ant Design Pro v6）正文要点——Owner 选定 B 后据此重写 §2–§9
 
-> 本附录＝候选方案的呈现要点与接入纪律，非最终正文。选定 B 时：§2–§4 token 表、§5 布局、§6 图标、§7 动效、§9 落地映射 MUST 依此重写并补实际色值/类名走查；§10 移动端、§11 交互行为规则、§12 通用纪律（四态、丢弃确认、零黑话、不庆祝、≤6 主列、≤3 主操作、不缩字号）**原样保留**——它们是跨方案铁律，不随换 UI 失效。§12 中 shadcn 专属条目（Dialog `w-full`、`ui/*.tsx` 覆写）随重写替换为 HeroUI 对应踩坑登记（接入初期为空，实跑后追加）。
+> 本附录＝候选方案的呈现要点与接入纪律，非最终正文。选定 B 时：§2–§4 token 表、§5 布局、§6 图标、§7 动效、§9 落地映射 MUST 依此重写并补实际 token 值走查；§10 移动端、§11 交互行为规则、§12 通用纪律（四态、丢弃确认、零黑话、不庆祝、≤6 主列、≤3 主操作、不缩字号）**原样保留**——它们是跨方案铁律，不随换 UI 失效。§12 中 shadcn 专属条目（Dialog `w-full`、`ui/*.tsx` 覆写）随重写替换为 antd 对应踩坑登记（接入初期为空，实跑后追加）。
 
-### B.1 技术事实（2026-10 经 npm registry / 官方仓库核实）
+### B.1 技术事实（2026-10 经 GitHub API / npm registry / 官方文档核实）
 
-- 包＝`@heroui/react` ＋ `@heroui/styles`（最新 3.2.6，Apache-2.0）；前代名 NextUI，v2 与 v3 API 不兼容，**只认 v3**。
-- peer 需显式安装：`react/react-dom >=19`、`tailwindcss >=4`、`react-aria`、`react-aria-components`、`@react-aria/ssr`、`@react-aria/utils`、`@internationalized/date`。装包走 npmmirror（`npm install @heroui/styles @heroui/react` 及 peers）。
-- 组件 API＝compound/named pattern（`Card`/`Tabs` 配 `Root` 等子件；官方同时支持简写 `Component` 替代 `Component.Root`）；React 19 ref-as-prop，无 forwardRef 包装。
-- 主题＝纯 CSS 变量（无 CSS-in-JS runtime）：`@heroui/styles/themes/default` 提供变量表，`index.css` 覆写变量即换皮；组件暴露 BEM 类钩子（`.card__*`、`.input__*` 等）供局部覆写。**本文件 §2 的色彩语义在 HeroUI 变量表中多数有对应槽位（bg/fg/surface 系），重写 §2 时逐 token 映射，不得留双轨。**
-- 按需引入 CSS 子路径（`./components/*.css`、`./utilities`、`./variants`、`./base`）存在官方文档配方缺 utilities+variants prelude 导致编译失败的已知缺陷（上游 v3.2.6 已修文档并给出完整配方）——**接入时按当期文档的全量 prelude 抄，勿凭记忆拼**。
-- Surface 组件（default/secondary/tertiary/quaternary 四变体）以 context 让表单类控件自动切 on-surface 样式——卡片/弹层内的输入件 MUST 包在对应 Surface 变体里，否则底色与描边不匹配。
-- 后台布局壳＝**HeroUI Pro `dashboard` 模板**（实演 template-dashboard.heroui.pro）：侧栏导航＋顶栏＋KPI 统计卡＋图表卡＋可排序数据表＋筛选/列设置，结构完整可直接作基线；**注意它是付费 Pro 资产**——许可为 perpetual license（Web Hero/Super Hero 档，含 Pro 组件/模板/AI 工具，更新可续可不续），**采购前只可看 demo 定形态，MUST NOT 把模板源码拷进仓库**（合规红线，走一次团队采购拍板）。开源退路＝以 HeroUI 原语自建壳（工作量回到方案A 对比表旧口径）。
-- 主题编辑器（heroui.com/cn/themes?template=dashboard）可在浏览器里实时调强调色/基础色/字体/圆角/表单圆角并导出主题 token——§2 色彩表换皮时用它对齐预览，再落 `index.css` 变量覆写。
-- AI 工具链：官方 MCP server（`@heroui/react-mcp`）、llms.txt（heroui.com/llms.txt）、`npx heroui-cli agents-md` 生成 agent 规则文件；Pro 另含 Pro Skills/MCP。写 HeroUI 代码前 MUST 用 MCP/llms.txt 核对当期 API，禁按 v2 记忆写码（v2 dot-notation 已废）。
+- 基线＝`ant-design/ant-design-pro`（v6，MIT，38.9k star）：React 19 / Umi Max 4 / antd 6 / utoopack（可切 Umi 常规构建）；块模板＝Welcome、Dashboard（Analysis/Monitor/Workplace）、Form（基础/分步/高级）、List（搜索×3/表格/基础/卡片）、Profile、Result、Exception、Account、AI Assistant、User（登录/注册）。装包 CN 网络走 npmmirror 即可（antd 生态国内源齐备）。
+- 主题三层＝Seed→Map→Alias design token，经 `ConfigProvider theme={{...}}` 下发；`theme.algorithm` 预设 default/dark/compact 算法可组合；**antd 官方无 shadcn 预设——"默认使用 shadcn 主题"＝本包用下表把 §2/§4 的 shadcn-admin token 值灌入 Seed/Alias token，形成项目内 `theme/shadcn.ts` 单一真相源**。
+- **shadcn 主题映射表**（Seed/Alias token ← §2/§4 值；§2 色值变更时本表同步改，两处 MUST 同文件登记防漂移）：
+
+  | antd token | 值（=§2/§4 shadcn 值） | 对应 shadcn 变量 |
+  |---|---|---|
+  | `colorPrimary` | `#18181B` | `--primary`（主按钮近黑） |
+  | `colorSuccess` | `#84A98C`（色点态）/ Badge 底字另配 `#ECFDF5`/`#047857` | 功能-成功 |
+  | `colorError` | `#DC2626` | `--destructive` |
+  | `colorWarning` | `#B45309`（Badge 底 `#FFFBEB`） | 功能-警告 |
+  | `colorText` | `#1C1917` | `--foreground` |
+  | `colorTextSecondary` | `#78716C` | `--muted-foreground` |
+  | `colorBgLayout` | `#F5F5F4` | `--background` |
+  | `colorBgContainer` | `#FFFFFF` | `--card` |
+  | `colorBorder` / `colorSplit` | `#E7E5E4` | `--border` |
+  | `borderRadius` | `10`（输入/按钮；卡片 `16` 走 `Card` 组件 token） | §4 圆角 |
+  | `fontSize` | `14`（root 16px 纪律落在 html 层，antd 组件区保持 14） | §3 |
+  | `controlHeight` | `36`（配合行高收紧＝布局密度，不缩字号） | §8 |
+  | `boxShadow` / `boxShadowSecondary` | 覆写为 `--shadow-card` / `--shadow-float` 值 | §4 阴影 |
+
+- **动态主题（选型硬要求，MUST）**：`cssVar: true`（运行时 CSS 变量，切主题不重编译样式）＋ 主题对象状态化——`theme/shadcn.ts` 导出 seed 对象，亮/暗（或品牌换皮）经 `theme.darkAlgorithm` 叠加派生；切换＝改 ConfigProvider `theme` 引用（zustand/context 承载，持久 localStorage，跟随 `prefers-color-scheme` 可作初始值）。**红线**：组件内 MUST NOT 硬编码色值——一切颜色走 token 变量，否则动态切换出现半屏残影（G2' 抽查项）；`theme=undefined↔object` 切换会引发组件重挂载（官方 FAQ），初始即给空对象 `{}` 兜底。
+- **AI 编码资产（MUST 使用）**：仓库根 `AGENTS.md`＋`CLAUDE.md` 与 `.agents/skills`（symlink→`.claude/skills`）内两技能——`antd`（触发词＝antd 组件/API/props/token/迁移/版本分析；经 `@ant-design/cli` 提供 `antd_list/info/doc/demo/token/semantic/changelog` 七命令，`--format json`＋`--lang zh`，亦可作 MCP server 暴露 7 tools＋2 prompts）与 `pro-upgrade`（v5→v6 升级承接）。**写 antd/Pro 代码前 MUST 先读这两个 SKILL.md 并优先用 CLI 查当期 API，禁凭记忆写码**（token 名/props 以 CLI 输出为准）。官方层另有 llms.txt、`https://ant.design/design.md`（google-labs design.md 格式，供 AI 设计工具）、MCP server。
+- 组件语义钩子＝antd 各组件 `classNames`/`styles` 语义结构（v6 全组件覆盖），局部微调走语义钩子不写全局 CSS 覆写；Pro 布局壳＝`ProLayout`（侧栏/顶栏/水波纹/多 tab）＋ ProTable/ProForm（schema 驱动，字段四列纪律可映射其 columns 定义）。
 
 ### B.2 选型必配纪律
 
-1. **§0.3 记拍板后先 spike**：用 1 个真实页面（登录页或任一表格页）走通「装包→主题变量重皮→表格+弹层→生产构建」再全量接入；spike 不达标＝回到 §0 重拍，不得带病推广。**选 B 且走 Pro 路线＝spike 前采购拍板先行**（席位/价格/合规边界经 Owner 确认，模板凭 license 拉取，见 B.1），未采购只能以开源原语自建壳做 spike。
-2. **升级锁版**：`@heroui/*` 钉精确版本（compound pattern 迁移期 API 有 breaking 史），升版走判例登记。
-3. **a11y 收益落地**：React Aria 焦点环只对键盘导航出现（v3.2.6 起全库清扫）——冒烟断言改为「鼠标点击无 ring、键盘 Tab 有 ring」替代方案A 的 ring 检查项。
-4. **视觉铁律不换血**：§8 密度（root 16px、不缩字号）与 ToB 黑白灰克制配色经主题变量实现；HeroUI 默认主题含高饱和色相，**接入第一步＝按 §2 色值表覆写主题变量**，未覆写＝G2' 不过。
+1. **§0.3 记拍板后先 spike**：用 Pro 的任一表格页走通「脚手架起站→shadcn 映射表灌 token→动态主题切换（亮/暗）→生产构建」四步再全量接入；spike 不达标＝回到 §0 重拍，不得带病推广。
+2. **升级锁版**：`antd`/`@ant-design/pro-components` 钉精确版本（v5→v6 API 有 breaking 史），升版走判例登记＋跑仓库 `pro-upgrade` 技能对照清单。
+3. **动态主题验收进 G2'**：冒烟断言加两条——①运行时切主题后全页无硬编码色残留（getComputedStyle 抽查 token 变量生效）；②切换不触发整树重挂载（theme 初始给 `{}`）。§2 色值表与 `theme/shadcn.ts` 一致性列入 pre-commit 抽查。
+4. **视觉铁律不换血**：§8 密度（root 16px、不缩字号、紧凑靠布局）经 `controlHeight`/`size` 与组件 token 实现；antd 默认蓝 `#1677FF` MUST 被 `colorPrimary=#18181B` 覆盖——未覆盖＝G2' 不过（映射表落地即验证）。
+5. **AI 会话开场规**：前端实现会话 FIRST READ＝仓库 `AGENTS.md`＋`.agents/skills/antd/SKILL.md`＋本 DESIGN.md §0.3 拍板记录；三件读齐前不落任何 antd 代码（UI-GATE 在方案B 的具体化）。
