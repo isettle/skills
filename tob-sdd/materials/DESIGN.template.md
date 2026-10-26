@@ -16,15 +16,15 @@
 | 底座 | Radix primitives ＋ Tailwind v4 | React 19 / Umi Max 4 / antd 6 / utoopack（构建可选 utoo 或 Umi 常规） |
 | 无障碍 | Radix 级 | antd 内建 a11y（官方维护，中文语境成熟） |
 | 后台布局壳 | 现成（侧栏/顶栏/⌘K/登录页，§5 直接可用） | 现成且更全：Dashboard（Analysis/Monitor/Workplace）/Form 三式/List 四式/Profile/Result/Exception/Account/登录注册——官方模板块模板（preview.pro.ant.design 实演） |
-| 定制方式 | CSS 变量 token ＋ 改 `components/ui` 源码 | ConfigProvider design token（Seed→Map→Alias 三层）＋ `cssVar` 运行时变量；**本包要求：默认主题＝shadcn token 映射表（§2/§4 值灌入 Seed/Alias token），且 MUST 支持动态主题（运行时切换）**——映射表与切换机制见附录 B |
+| 定制方式 | CSS 变量 token ＋ 改 `components/ui` 源码 | ConfigProvider design token ＋ **本包内置主题包（`materials/antd-themes/`，14 文件：shadcn【默认】/mui/bootstrap/cartoon/illustration/glass/geek/lobe/lark/blossom/v4/serene/light/dark，源自 ant.design 官方主题预览区）**；用户可自定义切换主题，默认＝shadcn——结构与接入适配见附录 B |
 | CN 网络 | 全链路已验证（npmmirror） | antd 生态国内原生友好：npmmirror/淘宝源齐、文档国内可达、团队中文经验多 |
 | 团队实跑经验 | 两个内部 ToB 项目验证，§12 踩坑登记齐 | 本包无实跑经验，接入首季按 spike 对待；但 antd 为国内 ToB 后台事实标准，招人/协作成本最低 |
-| AI 工具链 | — | **仓库自带 agent 资产**：根 `AGENTS.md`＋`.agents/skills`（symlink→`.claude/skills`：`antd`、`pro-upgrade` 两技能；antd 技能含 `@ant-design/cli` 七工具 list/info/doc/demo/token/semantic/changelog ＋ MCP server 模式）；官方另有 llms.txt、design.md（google-labs 格式）、MCP——AI 编码前 MUST 读仓库 skills（B.2 第 4 条） |
+| AI 工具链 | — | **仓库自带 agent 资产**：根 `AGENTS.md`＋`.agents/skills`（symlink→`.claude/skills`：`antd`、`pro-upgrade` 两技能；antd 技能含 `@ant-design/cli` 七工具 list/info/doc/demo/token/semantic/changelog ＋ MCP server 模式）；官方另有 llms.txt、design.md（google-labs 格式）、MCP——AI 编码前 MUST 读仓库 skills（B.2 第 5 条） |
 | 版本成熟度 | shadcn-admin 稳定 | antd 6.6.7 / Pro v6（2026-10 核实，MIT）；v5→v6 迁移期 API 有变，官方带 pro-upgrade 技能承接 |
 | 授权成本 | MIT 免费 | MIT 免费（模板/脚手架全开源，无付费墙） |
-| 主要风险 | 组件副本的维护成本 | Umi Max 框架绑定（路由/构建随 Umi；纯 Vite＋antd 属另一形态需另拍）＋ shadcn 映射主题与 antd 原生观感差异需走查 ＋ 经验空白 |
+| 主要风险 | 组件副本的维护成本 | Umi Max 框架绑定（路由/构建随 Umi；纯 Vite＋antd 属另一形态需另拍）＋ 内置 shadcn 主题（官网 neutral 灰阶）与 §2 stone 暖灰有微差需走查（B.1 吻合度条）＋ 主题包 import/依赖适配一次性成本 ＋ 经验空白 |
 
-推荐＝**方案B**：后台壳最全且全免费（无 Pro 授权门槛）、AI 编码资产官方内建（agent skills＋CLI＋MCP 让"禁凭记忆写码"有工具可执行）、国内 ToB 语境协作与招人成本最低。shadcn 视觉纪律经 B.1 映射表灌入 token，不换血。**方案A 保留为轻量退路**（不想引 Umi 全家桶时用）。两者 UI-GATE 纪律相同。
+推荐＝**方案B**：后台壳最全且全免费（无授权门槛）、内置 14 主题包（shadcn＝默认，用户可切换）、AI 编码资产官方内建（agent skills＋CLI＋MCP 让"禁凭记忆写码"有工具可执行）、国内 ToB 语境协作与招人成本最低。shadcn 黑白灰纪律经内置 shadcn 主题延续，不换血。**方案A 保留为轻量退路**（不想引 Umi 全家桶时用）。两者 UI-GATE 纪律相同。
 
 ### 0.2 拍板与落位规则
 
@@ -244,33 +244,18 @@ root 16px 不缩字号；单屏信息不过载（一屏一个主任务区）；T
 ### B.1 技术事实（2026-10 经 GitHub API / npm registry / 官方文档核实）
 
 - 基线＝`ant-design/ant-design-pro`（v6，MIT，38.9k star）：React 19 / Umi Max 4 / antd 6 / utoopack（可切 Umi 常规构建）；块模板＝Welcome、Dashboard（Analysis/Monitor/Workplace）、Form（基础/分步/高级）、List（搜索×3/表格/基础/卡片）、Profile、Result、Exception、Account、AI Assistant、User（登录/注册）。装包 CN 网络走 npmmirror 即可（antd 生态国内源齐备）。
-- 主题三层＝Seed→Map→Alias design token，经 `ConfigProvider theme={{...}}` 下发；`theme.algorithm` 预设 default/dark/compact 算法可组合；**antd 官方无 shadcn 预设——"默认使用 shadcn 主题"＝本包用下表把 §2/§4 的 shadcn-admin token 值灌入 Seed/Alias token，形成项目内 `theme/shadcn.ts` 单一真相源**。
-- **shadcn 主题映射表**（Seed/Alias token ← §2/§4 值；§2 色值变更时本表同步改，两处 MUST 同文件登记防漂移）：
-
-  | antd token | 值（=§2/§4 shadcn 值） | 对应 shadcn 变量 |
-  |---|---|---|
-  | `colorPrimary` | `#18181B` | `--primary`（主按钮近黑） |
-  | `colorSuccess` | `#84A98C`（色点态）/ Badge 底字另配 `#ECFDF5`/`#047857` | 功能-成功 |
-  | `colorError` | `#DC2626` | `--destructive` |
-  | `colorWarning` | `#B45309`（Badge 底 `#FFFBEB`） | 功能-警告 |
-  | `colorText` | `#1C1917` | `--foreground` |
-  | `colorTextSecondary` | `#78716C` | `--muted-foreground` |
-  | `colorBgLayout` | `#F5F5F4` | `--background` |
-  | `colorBgContainer` | `#FFFFFF` | `--card` |
-  | `colorBorder` / `colorSplit` | `#E7E5E4` | `--border` |
-  | `borderRadius` | `10`（输入/按钮；卡片 `16` 走 `Card` 组件 token） | §4 圆角 |
-  | `fontSize` | `14`（root 16px 纪律落在 html 层，antd 组件区保持 14） | §3 |
-  | `controlHeight` | `36`（配合行高收紧＝布局密度，不缩字号） | §8 |
-  | `boxShadow` / `boxShadowSecondary` | 覆写为 `--shadow-card` / `--shadow-float` 值 | §4 阴影 |
-
-- **动态主题（选型硬要求，MUST）**：`cssVar: true`（运行时 CSS 变量，切主题不重编译样式）＋ 主题对象状态化——`theme/shadcn.ts` 导出 seed 对象，亮/暗（或品牌换皮）经 `theme.darkAlgorithm` 叠加派生；切换＝改 ConfigProvider `theme` 引用（zustand/context 承载，持久 localStorage，跟随 `prefers-color-scheme` 可作初始值）。**红线**：组件内 MUST NOT 硬编码色值——一切颜色走 token 变量，否则动态切换出现半屏残影（G2' 抽查项）；`theme=undefined↔object` 切换会引发组件重挂载（官方 FAQ），初始即给空对象 `{}` 兜底。
+- 主题三层＝Seed→Map→Alias design token，经 `ConfigProvider theme={{...}}` 下发；`theme.algorithm` 预设 default/dark/compact 算法可组合。
+- **内置主题包（vendored，本包 `materials/antd-themes/`，14 文件）**：源自 ant.design 官方主题预览区（官网 themes 页同一套代码，MIT 生态资产），**shadcn 主题＝项目默认主题（MUST）**。主题清单（`index.ts` 注册）：`light`（Ant Design 默认）、`dark`（暗黑）、**`shadcn`（默认启用）**、`mui`、`bootstrap`、`cartoon`（卡通）、`illustration`（插画）、`glass`（玻璃）、`geek`（极客）、`lobe`（LobeHub）、`lark`（知识协作）、`blossom`（桃花缘）、`v4`（Ant Design V4）、`serene`（静谧）；目录内另存 `heroTheme.ts`（HeroUI Dashboard 风格，亮/暗双 ThemeConfig 导出，**未注册进 index 列表**＝可选加挂项，加挂与否 Owner 拍板）。
+- **接入形态**：`antd-themes/` 整目录拷入项目（建议 `src/themes/antd/`），主题组件按 `ConfigProviderProps` 消费（`<ConfigProvider {...themeProps}>`）。**适配点**：`index.ts` 的 import 路径写自 ant.design 官网仓库（`../../../../../hooks/useLocale`、`../svg-component`），接入时替换为项目本地等价（locale hook 自实现或去 i18n 依赖、SereneIcon 内联）；`?raw` 导入仅官网展示源码用，项目消费可裁；7 个主题（shadcn/mui/bootstrap/cartoon/illustration/glass/geek）依赖 `antd-style`＋`clsx`（createStyles 做组件级样式覆写），接入需加这两依赖或改写为 CSS 变量——**取舍记 §0.3**。
+- **shadcn 主题与 §2 黑白灰体系吻合度（已核对源码）**：`colorPrimary` 灰黑系（`#262626`＋hover `#404040`/active `#171717`）、`colorPrimaryBg #f5f5f5`、`borderRadius 8`、按钮主色 `#18181b`、边框 `#e4e4e7`——与 §2 `--primary #18181B`/`--border #E7E5E4` 同族但非逐字一致（官网版偏 neutral 灰阶，§2 是 stone 暖灰）。纪律：以 vendored `shadcnTheme.ts` 为默认运行基线；若 Owner 要求像素级贴合 §2，改该文件 token 值并同步本节，MUST NOT 另立第二套 shadcn token 源（防双轨）。
+- **动态主题（选型硬要求，MUST）**：用户可自定义切换主题——主题列表化（`index.ts` 即注册表）＋切换器（设置面板或顶栏入口）＋ `cssVar: true`（运行时 CSS 变量，切换不重编译样式、杜绝半屏残影）＋选择持久 localStorage（可跟随 `prefers-color-scheme` 作初始值，默认仍＝shadcn）。**红线**：组件内 MUST NOT 硬编码色值——一切颜色走 token/主题变量；`theme=undefined↔object` 切换会引发组件重挂载（官方 FAQ），初始即给空对象 `{}` 兜底。
 - **AI 编码资产（MUST 使用）**：仓库根 `AGENTS.md`＋`CLAUDE.md` 与 `.agents/skills`（symlink→`.claude/skills`）内两技能——`antd`（触发词＝antd 组件/API/props/token/迁移/版本分析；经 `@ant-design/cli` 提供 `antd_list/info/doc/demo/token/semantic/changelog` 七命令，`--format json`＋`--lang zh`，亦可作 MCP server 暴露 7 tools＋2 prompts）与 `pro-upgrade`（v5→v6 升级承接）。**写 antd/Pro 代码前 MUST 先读这两个 SKILL.md 并优先用 CLI 查当期 API，禁凭记忆写码**（token 名/props 以 CLI 输出为准）。官方层另有 llms.txt、`https://ant.design/design.md`（google-labs design.md 格式，供 AI 设计工具）、MCP server。
 - 组件语义钩子＝antd 各组件 `classNames`/`styles` 语义结构（v6 全组件覆盖），局部微调走语义钩子不写全局 CSS 覆写；Pro 布局壳＝`ProLayout`（侧栏/顶栏/水波纹/多 tab）＋ ProTable/ProForm（schema 驱动，字段四列纪律可映射其 columns 定义）。
 
 ### B.2 选型必配纪律
 
-1. **§0.3 记拍板后先 spike**：用 Pro 的任一表格页走通「脚手架起站→shadcn 映射表灌 token→动态主题切换（亮/暗）→生产构建」四步再全量接入；spike 不达标＝回到 §0 重拍，不得带病推广。
-2. **升级锁版**：`antd`/`@ant-design/pro-components` 钉精确版本（v5→v6 API 有 breaking 史），升版走判例登记＋跑仓库 `pro-upgrade` 技能对照清单。
-3. **动态主题验收进 G2'**：冒烟断言加两条——①运行时切主题后全页无硬编码色残留（getComputedStyle 抽查 token 变量生效）；②切换不触发整树重挂载（theme 初始给 `{}`）。§2 色值表与 `theme/shadcn.ts` 一致性列入 pre-commit 抽查。
-4. **视觉铁律不换血**：§8 密度（root 16px、不缩字号、紧凑靠布局）经 `controlHeight`/`size` 与组件 token 实现；antd 默认蓝 `#1677FF` MUST 被 `colorPrimary=#18181B` 覆盖——未覆盖＝G2' 不过（映射表落地即验证）。
+1. **§0.3 记拍板后先 spike**：用 Pro 的任一表格页走通「脚手架起站→拷入 `antd-themes/` 并修 import/依赖适配→默认主题＝shadcn 生效→主题切换器动态换肤无残影→生产构建」五步再全量接入；spike 不达标＝回到 §0 重拍，不得带病推广。
+2. **升级锁版**：`antd`/`@ant-design/pro-components` 钉精确版本（v5→v6 API 有 breaking 史），升版走判例登记＋跑仓库 `pro-upgrade` 技能对照清单；`antd-themes/` 若跟进 ant.design 上游改版，同样走判例登记（记录来源 commit/日期）。
+3. **动态主题验收进 G2'**：冒烟断言加三条——①默认主题＝shadcn（首屏 `colorPrimary` 为灰黑系非 antd 蓝）；②运行时切换主题后全页无硬编码色残留（getComputedStyle 抽查 token 变量生效、无半屏残影）；③切换不触发整树重挂载（theme 初始给 `{}`）。
+4. **视觉铁律不换血**：§8 密度（root 16px、不缩字号、紧凑靠布局）经 `controlHeight`/`size` 与组件 token 实现；antd 默认蓝 `#1677FF` MUST 被 shadcn 默认主题（灰黑系 `colorPrimary`）覆盖——未覆盖＝G2' 不过。用户切换的其他主题（mui/glass/geek 等）允许各自的强调色，但 ToB 生产环境默认展示＝shadcn，切换器入口不抢主操作位（§5.4 主操作 ≤3 纪律）。
 5. **AI 会话开场规**：前端实现会话 FIRST READ＝仓库 `AGENTS.md`＋`.agents/skills/antd/SKILL.md`＋本 DESIGN.md §0.3 拍板记录；三件读齐前不落任何 antd 代码（UI-GATE 在方案B 的具体化）。
