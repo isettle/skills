@@ -7,7 +7,8 @@
 
 ## [Unreleased]
 
-- 技能改名：`multi-agent-global-agents` → **`multi-agent-global-rules`**（Owner 2026-10-23 拍板：旧名以载体 AGENTS.md 结尾易误导，且包内已不提 AGENTS.md，名实不符；新名直指用途＝多 agent 项目开发的全局规则）。目录/`name:`/拷贝命令/仓库 README 全部同步；历史段落（1.0.0/1.1.0 条目内旧技能名与旧模板文件名）作为当时事实保留不改。
+- 技能改名（二）：`multi-agent-global-rules` → **`coding-rule`**（Owner 2026-10-23 拍板：名称直指用途，并明确**触发范围＝多个 agent 共同开发同一个代码项目时才触发**——单 agent 项目、非代码项目不适用）。目录/`name:`/`description:`/拷贝命令/仓库 README/模板用法行同步；When to Use 重写为触发条件优先。
+- 技能改名（一）：`multi-agent-global-agents` → `multi-agent-global-rules`（旧名以载体 AGENTS.md 结尾易误导，且包内已不提 AGENTS.md，名实不符）。目录/`name:`/拷贝命令/仓库 README 全部同步；历史段落（1.0.0/1.1.0 条目内旧技能名与旧模板文件名）作为当时事实保留不改。
 
 ## [1.1.0] - 2026-10-23
 

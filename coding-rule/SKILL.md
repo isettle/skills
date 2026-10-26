@@ -1,6 +1,6 @@
 ---
-name: multi-agent-global-rules
-description: "Use when maintaining multi-agent collaboration rules."
+name: coding-rule
+description: "Use when multiple agents co-develop one code project."
 version: 1.1.0
 author: Hermes Agent
 license: MIT
@@ -10,11 +10,11 @@ metadata:
     tags: [agents, collaboration, workflow, multi-agent]
 ---
 
-# 多 Agent 全局项目规则（skill 分发）
+# 多 Agent 编码项目全局规则（coding-rule）
 
 ## When to Use
 
-用户在一组 git 仓库上用**多个编码 agent 并行开发**（本机一个、开发机一个、未来更多），需要一份统一它们协作行为的全局规则；或既有多 Agent 规则还写着「双 Agent」需升级为任意数量 agent。本技能给出规则模板、装法与改版踩坑。
+**仅在多个 agent 共同开发同一个代码项目时触发**（本机一个＋开发机一个、或多台多 agent 并行）。触发场景：agent 进入此类项目的编码/部署/交接会话，或用户要求维护/升级多 agent 协作规则（如既有规则还写着「双 Agent」需升级为任意数量 agent）。单 agent 项目、非代码项目不触发。本技能给出规则模板、装法与改版踩坑。
 
 ## 内含
 
@@ -30,7 +30,7 @@ metadata:
 
 ## 装到机器（用法）
 
-1. **规则加载链＝skill（唯一生效链）**：把本技能目录拷进该机每个 agent 的技能目录（Hermes：`cp -R multi-agent-global-rules ~/.hermes/skills/`；Claude Code：`cp -R multi-agent-global-rules ~/.claude/skills/`；其它支持 SKILL.md 的 CLI 按各自约定）——会话开始由触发词自动载入，规则正文＝本技能包内 `templates/global-rules.md`（或经 skill_view 读 SKILL.md）。**不依赖任何机器本地规则文件或 agent 全局记忆副本作加载入口。**
+1. **规则加载链＝skill（唯一生效链）**：把本技能目录拷进该机每个 agent 的技能目录（Hermes：`cp -R coding-rule ~/.hermes/skills/`；Claude Code：`cp -R coding-rule ~/.claude/skills/`；其它支持 SKILL.md 的 CLI 按各自约定）——会话开始由触发词自动载入，规则正文＝本技能包内 `templates/global-rules.md`（或经 skill_view 读 SKILL.md）。**不依赖任何机器本地规则文件或 agent 全局记忆副本作加载入口。**
 2. 填机器参数：§2 表格里本机的默认项目根、§1 花名册行的实际 agent 名——直接改各机技能副本内文件（属各机私有配置），或经 Owner 在会话里口述生效。
 3. 接入新 agent＝§1 加一行 + 该 agent 装本 skill + 会话开场自报身份；有项目特殊性再写该仓库自己的项目级细则文档（细则归项目，全局只管共性）。
 4. 规则更新＝分发源 PR 改版 → 合入后通知各 agent `git pull` ＋ 重拷技能目录；各机技能副本的私有参数改动 MUST NOT 回传分发源。
