@@ -19,7 +19,7 @@
 1. **先写 `intent.md`**：复制 `intent.template.md` → 手建目录 `specs/001-<slug>/intent.md`，四段填齐后跑 grill-me＋domain-modeling 拷问（过 GI 门禁）。后续每个 feature 同样先 intent.md。
 2. 复制 `AGENTS.template.md` → 仓库根 `AGENTS.md`，**填齐 §P 项目参数表**（任一项空着必须先问 Owner，禁止按默认值自行决定）。
 3. 复制 `constitution.template.md` → `.specify/memory/constitution.md`，替换 `<项目名>`，跑 `/speckit-constitution` 校验格式。
-4. 复制 `DESIGN.template.md` → 仓库根 `DESIGN.md`。**§0 是方案审批制**：plan 首轮把候选表（A＝satnaing/shadcn-admin 轻量退路，**视觉＝上游原样，DESIGN 不再手抄参数、只指真相源**；B＝ant-design/ant-design-pro v6，推荐项，要点见附录 B——内置 `antd-themes/` 主题包、默认 shadcn＋动态切换硬要求）呈报 Owner 选一套并记入 §0.3，未拍板＝UI-GATE 不解除。选 A＝clone 上游钉 SHA，裁剪项按 §9（demo/clerk/社交按钮/Google Fonts 内网替代）；要换皮只改 `src/styles/theme.css` 变量值，组件源码不动。选 B 时把所需 `antd-themes/` 主题文件拷入项目（默认主题＝shadcn），按附录 B（含接入适配点）重写 §2–§9 并重跑 G2'。
+4. 复制 `DESIGN.template.md` → 仓库根 `DESIGN.md`。**§0 是方案审批制**：plan 首轮把候选表呈报 Owner 选一套并记入 §0.3，未拍板＝UI-GATE 不解除。**A/B 同律＝上游原样制**：架构与 UI 都认上游仓库本身（A＝satnaing/shadcn-admin，§1–§9 指针；B＝ant-design/ant-design-pro v6，附录 B 指针），DESIGN 不手抄参数、不 fork 魔改上游。**B 的自定义只有两类白名单：①主题层（本包 `antd-themes/` 主题资源＋自建切换器＋cssVar，默认＝shadcn，用户可切换）②官方插件/扩展点（Umi Max plugins、ConfigProvider token、classNames/styles 语义钩子、ProComponents schema）**；其余改动交 Owner 判例。选 A＝clone 上游钉 SHA，裁剪项按 §9；要换皮只改 `src/styles/theme.css`。选 B＝clone 上游钉 SHA，拷主题文件，按附录 B 改写 §1–§9 指针并重跑 G2'。
 5. `/speckit-specify` 时显式提供 intent 所在目录（`SPECIFY_FEATURE_DIRECTORY`），然后按 AGENTS §3 引擎流程走：`specify → 原型 → clarify → plan → checklist → (analyze) → tasks → implement → converge`。
 
 ## 三个物料的权威分工（一图记牢）

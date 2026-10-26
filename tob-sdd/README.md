@@ -11,7 +11,7 @@ tob-sdd/
 │   ├── README.md                      # 物料集导航 + 新项目接入 5 步
 │   ├── AGENTS.template.md             # → 仓库根 AGENTS.md（填 §P）
 │   ├── constitution.template.md       # → .specify/memory/constitution.md
-│   ├── DESIGN.template.md             # → 仓库根 DESIGN.md（UI-GATE 真相源；§0 多方案审批制：A=satnaing/shadcn-admin / B=ant-design-pro v6【推荐项，内置主题包默认 shadcn＋用户动态切换】）
+│   ├── DESIGN.template.md             # → 仓库根 DESIGN.md（UI-GATE 真相源；§0 多方案审批制，A/B 同律=上游原样制：A=satnaing/shadcn-admin / B=ant-design-pro v6【推荐项；自定义白名单=主题层(默认shadcn)+官方插件扩展点，禁魔改上游】）
 │   ├── antd-themes/                   # 方案B 主题资源集（13 主题文件，ant.design 官方主题预览区照抄；纯资源无注册表，默认选用＝shadcn）
 │   ├── intent.template.md             # → specs/NNN-*/intent.md（流程最前端，GI 门禁）
 │   └── spec-kit物料落位与回写规则.md   # 内容写哪个文件 + 原型回写三分类
