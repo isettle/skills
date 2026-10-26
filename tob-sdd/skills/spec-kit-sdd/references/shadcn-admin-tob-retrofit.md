@@ -39,21 +39,12 @@ build: { outDir: '../backend/app/static', emptyOutDir: true },
 
 FastAPI 侧：`app.mount("/assets", StaticFiles(directory=STATIC_DIR / "assets"))`（注意双层路径坑）+ catch-all 回 index.html；**catch-all 与 API router 的注册顺序**：API include_router 全部在 catch-all 之前。
 
-## 5. ToB 视觉规范落地（2026-09-29 用户澄清修正：**字号正常，紧凑靠密度不靠缩字**）
+## 5. 视觉落地（2026-10-23 Owner 拍板改「上游原样制」后修订）
 
-用户原话演进：先说"字体需要简单小巧一些"→ 落成 root 14px 全局缩字后被纠正："过于小了……我感觉更需要是紧凑型的风格"。**教训：用户说"紧凑/小巧"时先确认是字号还是密度；默认解读为布局密度（信息密度高），字号保持正常可读。**
+历史教训保留：用户说"紧凑/小巧"时先确认是**字号还是密度**，默认解读为布局密度，字号保持正常可读（root 16px 不缩字仍是铁律）。
 
-- **字号保持 root 16px 正常**（不设 html font-size）。主文案 `text-sm`(14px)、次要 `text-xs`(12px)、徽标 `text-[11px]`、页标题 `text-base font-semibold`——比模板默认小一档即够，别全局缩 root。
-- **紧凑靠三个 token**（Tailwind v4）：
-  ```css
-  /* index.css :root */
-  --spacing: 0.22rem;   /* 默认 0.25rem，全局间距收紧一档 */
-  body { line-height: 1.45; }
-  /* theme.css :root */
-  --radius: 0.375rem;   /* 默认 0.625rem，小圆角=干脆利落 */
-  ```
-  再配控件高度 `h-8`（输入/按钮）、`h-7`（行内小按钮）、表格单元格 `px-3 py-1.5`。
-- `--font-sans` 改系统字体栈（-apple-system…PingFang SC/Microsoft YaHei），`--font-inter/--font-manrope` 指向它；**index.html 删 Google Fonts `<link>`**（内网打不开外网字体，且 og/twitter 外链图一并删）。
+- ~~紧凑三 token（`--spacing:0.22rem`／`line-height:1.45`／`--radius:0.375rem`）＋控件 `h-8/h-7`＋表格行高 ≥52px~~——**Owner 2026-10-23 拍板全部删除**：密度纯用上游默认，不再全局收紧；换皮唯一入口＝`theme.css` 变量（见 DESIGN §1/§4）。
+- **字体＝离线下载入仓自托管（Owner 定案，取代旧「降级系统栈」案）**：下载 Inter/Manrope 的 woff2 存进项目（建议 `src/styles/fonts/` ＋ `@font-face` 本地声明，family 名沿用 `--font-inter/--font-manrope` 注册值——组件类名零改动、观感＝上游）。获取：`rsms.me/inter` 官方发布包，或 `@fontsource-variable/inter`＋`@fontsource/manrope`（npmmirror 可达）取包内字体文件入库。同步删 `index.html` 的 Google Fonts `<link>`/preconnect 及 og/twitter 外链图。
 - 配色不动（模板默认 slate 中性色已符合），彩色只留语义：destructive=危险、amber 边框=提醒、Badge variant outline/secondary 区分状态。
 - **Tailwind v4 preflight 把 button 默认 cursor 改成 `default`**（v3 是 pointer，官方 breaking change）：全站按钮悬停不变手型，用户会当 bug 报（"鼠标停留没变样式"）。修复＝index.css 全局恢复，不逐按钮加 className：
   ```css
@@ -63,8 +54,8 @@ FastAPI 侧：`app.mount("/assets", StaticFiles(directory=STATIC_DIR / "assets")
     label[for], select, summary { cursor: pointer; }
   }
   ```
-  禁用态维持 default（语义正确）。把「可点控件悬停＝pointer、禁用＝default」写进项目 DESIGN.md 防回退。
-- **冒烟断言防双向回退**：`fontSize === '16px'`（防再缩字）+ `body lineHeight/fontSize ≤ 1.5`（防过松）+ 关键按钮 `getComputedStyle(el).cursor === 'pointer'`（防 preflight 回退）。批量调字号层级时用占位符三步替换避免连锁命中（`text-xs→@@X@@` 先全部占位再统一落新值），八文件一次跑完。
+  禁用态维持 default（语义正确）。把「可点控件悬停＝pointer、禁用＝default」写进项目 DESIGN.md 防回退。**2026-10 复核：上游 `index.css` 已自带此修复（base 层 `cursor: pointer`），新项目先核对再决定是否自加，别重复打补丁。**
+- **冒烟断言**：`fontSize === '16px'`（防缩字回退）+ 关键按钮 `getComputedStyle(el).cursor === 'pointer'`（防 preflight 回退）。~~行高比 ≤1.5 断言~~ 随 2026-10-23 收紧条款删除作废。批量调字号层级时用占位符三步替换避免连锁命中（`text-xs→@@X@@` 先全部占位再统一落新值）。
 
 ## 6. shadcn DOM 的 E2E 选择器对照（Playwright，从 Element Plus 迁移时全换）
 

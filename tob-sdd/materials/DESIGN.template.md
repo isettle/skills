@@ -3,6 +3,7 @@
 **状态**: Owner 拍板生效后，本文件是 UI 唯一真相源——产出与本文冲突时改代码，不反向放宽本文（AGENTS UI-GATE）。
 **方案审批制**: 前端技术与 UI 以**多套候选方案**呈报 Owner 审批、选定一套后生效——候选清单与拍板规则见 §0；§1–§12 为**已选方案的正文**（模板默认＝方案A），方案B 的正文要点见附录 B。
 **上游原样定调（Owner 2026-10-23 拍板，A/B 同律）**: 两套方案都**不手抄 UI 参数表**——上游仓库代码内的前端技术架构与 UI 设计是什么样子，就原样使用什么；本文件只做「指向真相源」＋「裁剪/例外登记」，不做数值复刻（防手抄漂移成第二真相源）。方案A 指针见 §1–§9；方案B 指针与扩展白名单见附录 B。**唯一允许的项目级自定义＝主题层**；其余改动一律走官方支持的插件/扩展点，禁 fork 魔改上游源码。
+**跨方案行为铁律（Owner 2026-10-23 追认定稿，凌驾任一上游默认，换案不豁免）**: 主列 ≤6、每屏主操作 ≤4、Loading/Progress/Success/Error 四态＋Empty、表单非空关闭丢弃确认、禁庆祝动画、root 16px 不缩字号、ToB 零黑话全中文。
 
 ---
 
@@ -17,7 +18,7 @@
 | 无障碍 | Radix 级 | antd 内建 a11y（官方维护，中文语境成熟） |
 | 后台布局壳 | 现成即用（inset 侧栏/顶栏/⌘K/登录页两形态/暗黑模式，上游自带） | 上游自带全套后台页结构（Dashboard/Form/List/Profile/Result/Exception/Account/登录注册，实演 preview.pro.ant.design）；**结构细节以上游当期代码为准，本表不复刻** |
 | 定制方式 | **上游代码＝视觉真相源**；换皮唯一入口＝`src/styles/theme.css` token 值；不改 `components/ui` 源码 | **同左：架构与 UI 代码设计认上游仓库本身**；允许的改动只有两类——①**主题自定义**（本包 `materials/antd-themes/` 13 主题资源＋自建切换器＋`cssVar`，默认＝shadcn，用户可切换）②**官方支持的插件/扩展点形态**（ConfigProvider token 体系、组件 `classNames/styles` 语义钩子、ProComponents schema 扩展、Umi Max 官方插件）；**禁 fork 魔改 antd/Pro 内部源码**——逐项见附录 B |
-| CN 网络 | 上游 `index.html` 外联 Google Fonts（Inter/Manrope），内网不可达——按 §3 系统栈替代（唯一允许的视觉偏离，retrofit 配方有做法） | antd 生态国内原生友好：npmmirror/淘宝源齐、文档国内可达、团队中文经验多 |
+| CN 网络 | 上游 `index.html` 外联 Google Fonts（Inter/Manrope），内网不可达——**字体离线下载入仓自托管**（§3 唯一允许偏离；woff2＋`@font-face`，非降级系统栈） | antd 生态国内原生友好：npmmirror/淘宝源齐、文档国内可达、团队中文经验多 |
 | 团队实跑经验 | 两个内部 ToB 项目实跑；**注意：旧实跑是黑白灰重皮版——工程结论（§12、retrofit 配方的 pnpm/路由/构建/托管坑）仍适用，视觉结论（slate→stone、无边框大圆角、行高 ≥52px 等复刻条款）随 2026-10-23「原样」指令作废** | 本包无实跑经验，接入首季按 spike 对待；但 antd 为国内 ToB 后台事实标准，招人/协作成本最低 |
 | AI 工具链 | — | **上游仓库自带 agent 资产**：根 `AGENTS.md`＋`.agents/skills`（symlink→`.claude/skills`：`antd`、`pro-upgrade` 两技能；antd 技能含 `@ant-design/cli` 七工具 list/info/doc/demo/token/semantic/changelog ＋ MCP server 模式）；官方另有 llms.txt、design.md（google-labs 格式）、MCP——AI 编码前 MUST 读上游 skills（B.3 第 6 条） |
 | 版本成熟度 | shadcn-admin 稳定（接入时钉 commit 记 §0.3，见 §1） | ant-design-pro v6，MIT；接入时同样钉上游 commit 记 §0.3；v5→v6 迁移由仓库自带 `pro-upgrade` 技能承接 |
@@ -71,7 +72,7 @@
 
 ## 3. 字体
 
-上游真相源＝`index.css` `@theme inline`（Inter 正文／Manrope 标题，`index.html` 外联 Google Fonts）＋各组件类名字重层级。**唯一允许的视觉偏离＝内网字体替代**：删 `index.html` 的 preconnect/fonts `<link>`（及 og/twitter 外链图），`--font-inter/--font-manrope` 改指系统字体栈（`-apple-system…PingFang SC/Microsoft YaHei`）——只换字体名注册，不改层级结构。做法见本包 `spec-kit-sdd/references/shadcn-admin-tob-retrofit.md` §5。root 16px 不缩字（即 Tailwind 默认）。
+上游真相源＝`index.css` `@theme inline`（Inter 正文／Manrope 标题，`index.html` 外联 Google Fonts）＋各组件类名字重层级。**唯一允许的视觉偏离＝字体离线自托管（Owner 2026-10-23 定案，取代旧「降级系统栈」案）**：把 Inter/Manrope 的 woff2 文件下载后**保存到项目仓内**（建议 `src/styles/fonts/` ＋ `@font-face` 本地声明，family 名沿用 `--font-inter/--font-manrope` 注册值，组件类名零改动、观感＝上游）；获取途径＝rsms.me/inter 官方发布包，或 `@fontsource-variable/inter`＋`@fontsource/manrope` 包（npmmirror 实测可达）取其字体文件入库；同时删 `index.html` 的 preconnect/fonts `<link>` 及 og/twitter 外链图。做法见 `spec-kit-sdd/references/shadcn-admin-tob-retrofit.md` §5。root 16px 不缩字（即 Tailwind 默认）。
 
 ## 4. 圆角/阴影/边框
 
@@ -79,7 +80,7 @@
 
 ## 5. 布局
 
-上游默认即用（§1 指针表：inset 侧栏、Header h-16、Main px-4 py-6＋max-w-7xl）。**保留的行为纪律（跨方案铁律，不依赖具体皮）**：每屏主操作 ≤3、一屏一个主决策点、低频/高危动作收 `⋯` 下拉——在业务页遵守，不改上游壳。
+上游默认即用（§1 指针表：inset 侧栏、Header h-16、Main px-4 py-6＋max-w-7xl）。**保留的行为纪律（跨方案铁律，不依赖具体皮）**：每屏主操作 ≤4、一屏一个主决策点、低频/高危动作收 `⋯` 下拉——在业务页遵守，不改上游壳。
 
 ## 6. 图标
 
@@ -91,7 +92,7 @@
 
 ## 8. 密度
 
-上游默认即密度（Button h-9、Main py-6 等）。跨方案铁律保留：root 16px 不缩字号、紧凑＝布局密度不靠缩字、单屏信息不过载、ToB 零黑话全中文。旧「表格行高 ≥52px／`--spacing:0.22rem` 全局收紧」降为**项目级可选项**（做法在 retrofit 配方 §5），需 §0.3 登记后才启用，不是方案A 默认。
+上游默认即密度（Button h-9、Main py-6 等）。跨方案铁律保留：root 16px 不缩字号、紧凑＝布局密度不靠缩字、单屏信息不过载、ToB 零黑话全中文。**旧「表格行高 ≥52px／`--spacing:0.22rem` 全局收紧」条款 Owner 2026-10-23 拍板删除，不再作为方案A 默认，也不再留作项目级可选项——密度纯用上游默认。**
 
 ## 9. 落地动作（代码层，方案A）
 
@@ -128,7 +129,7 @@
 
 ### 11.2 创建/编辑弹层通用规则
 
-- 触发：页头主操作区按钮（≤3 个主操作，见 §5）或表格行操作列；按钮文案＝动词＋对象（「创建商品」不写「新增」）。
+- 触发：页头主操作区按钮（≤4 个主操作，见 §5）或表格行操作列；按钮文案＝动词＋对象（「创建商品」不写「新增」）。
 - 内容：字段自上而下按填写频率排；枚举/选项类输入 MUST 用下拉 Select，MUST NOT 让用户手输，禁裸 `<select>`；关键词输入框排搜索区最前，筛选下拉依次在后。
 - 提交：底部 Footer 操作区；pending 态按钮文案变化（「保存中…」）＋ disabled，禁双提交。
 - 关闭：右上角 X 与底部「取消」并存；**表单已填内容非空时关闭 MUST 给丢弃确认**（数据丢失红线）。
@@ -224,5 +225,5 @@
 2. **升级锁版**：`antd`/`@ant-design/pro-components`/`@umijs/max` 按上游 package.json 钉住，升版走判例登记＋跑上游 `pro-upgrade` 技能对照清单；`antd-themes/` 若跟进 ant.design 上游改版，同样判例登记（记录来源日期/commit）。
 3. **动态主题验收进 G2'**：冒烟断言三条——①默认主题＝shadcn（首屏 `colorPrimary` 为灰黑系 `#262626` 族、非 antd 蓝 `#1677FF`）；②运行时切换后全页无硬编码色残留（getComputedStyle 抽查 token 变量生效、无半屏残影）；③切换不触发整树重挂载（theme 初始 `{}`）。
 4. **白名单审计进 G2'**：diff 审查断言——`node_modules` 外零 `antd`/`pro-components` 源码级 patch；全局 CSS 覆写 antd 类名＝0；新依赖须属主题适配或官方插件。
-5. **跨方案铁律不换血**：§8 密度（root 16px、不缩字号、紧凑靠布局）经 `controlHeight`/`size` 组件 token 实现；antd 默认蓝 MUST 被默认 shadcn 主题覆盖——未覆盖＝G2' 不过。用户切换其他主题（mui/glass/geek 等）允许各自强调色，但 ToB 生产默认展示＝shadcn，切换器入口不抢主操作位（§5 主操作 ≤3）。
+5. **跨方案铁律不换血**：§8 密度（root 16px、不缩字号、紧凑靠布局）经 `controlHeight`/`size` 组件 token 实现；antd 默认蓝 MUST 被默认 shadcn 主题覆盖——未覆盖＝G2' 不过。用户切换其他主题（mui/glass/geek 等）允许各自强调色，但 ToB 生产默认展示＝shadcn，切换器入口不抢主操作位（§5 主操作 ≤4）。
 6. **AI 会话开场规**：前端实现会话 FIRST READ＝上游仓库 `AGENTS.md`＋`.agents/skills`（`antd`：经 `@ant-design/cli` 七命令 `list/info/doc/demo/token/semantic/changelog`，`--format json --lang zh`，可作 MCP server；`pro-upgrade`：升级承接）＋官方 llms.txt/`ant.design/design.md`＋本 DESIGN.md §0.3 拍板记录；读齐前不落任何 antd/Pro 代码（UI-GATE 在方案B 的具体化）。
