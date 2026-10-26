@@ -25,7 +25,7 @@ tob-sdd/
 
 ## 流程一图（本包定稿版）
 
-`intent.md（GI 门禁：四段＋拷问）→ constitution → specify → preview 原型（G1）→ clarify（G0'）→ plan → checklist（G2'）→ (analyze) → tasks → implement（G2 六件套 + UI-GATE）→ converge（G3）`；**DG 门禁全程后置：plan 产物 `data-model.md` 与 `contracts/api.md` 初版定稿后，任何修改先呈 diff、Owner 批复后才落笔（AGENTS §3）**
+`intent.md（GI 门禁：四段＋拷问）→ constitution → specify → preview 原型（G1）→ clarify（G0'）→ plan → checklist（G2'）→ (analyze) → tasks → implement（G2 六件套 + UI-GATE）→ converge（G3）`；**DG 门禁＝plan 产物 `data-model.md` 与 `contracts/api.md` 首版落笔及任何后续修改都先呈 diff、Owner 批复后才定稿（AGENTS §3，首轮不豁免）**
 
 ## grill 产出与 spec 体系的衔接（AGENTS 模板 §4.5 条款摘要）
 
