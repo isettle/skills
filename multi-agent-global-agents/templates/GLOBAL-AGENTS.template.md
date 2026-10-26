@@ -1,8 +1,8 @@
-# 全局项目规则模板（机器级 · GLOBAL-AGENTS.md）
+# 全局项目规则模板（多 Agent 协作 · skill 分发）
 
-> 用法：本规则集以 **skill 形态分发与触发**（isettle/skills 仓库 `multi-agent-global-agents/`），拷到该机 agent 全局规则统一入口位＝**`~/AGENTS.md`**（Linux root 用户＝`/root/AGENTS.md`；macOS＝家目录 `~/AGENTS.md`）仅作该机留底/兜底副本；项目级细则见各仓库根 `AGENTS.md`。
-> **本模板＝多 Agent 登记制**：在表里加一行即可接入新 agent，其余节不改。填 §2 机器参数（项目根/主机别名）后启用。
-> **接入前提**：不再经「各 agent 全局记忆 md 顶部引用行」接线；规则加载链＝每个 agent 安装本 skill（见 §1 登记制第 6 条），由 skill 触发在编码会话开始自动载入。
+> 用法：本规则集以 **skill 形态分发与触发**（isettle/skills 仓库 `multi-agent-global-agents/`）——本文件＝规则内容主体，由各 agent 安装技能后在会话开始自动载入，对该机所有项目生效；项目级细则见各仓库根 `AGENTS.md`。
+> **本模板＝多 Agent 登记制**：在 §1 表里加一行即可接入新 agent，其余节不改。填 §2 机器参数（项目根）后启用。
+> **唯一生效链＝skill**：不依赖任何机器本地规则文件/全局记忆副本作为加载入口（见 §1 登记制第 6 条）。
 
 ## 0. 一分钟版
 
@@ -25,7 +25,7 @@
 3. 角色划职责不锁工具：同一 agent 可兼多角色（如开发＋部署；也可设纯审查侧 agent）。
 4. **部署职责只归运行在部署机上的角色**；本机侧角色禁部署（Owner 临时要求时也先拍板登记例外）。
 5. 表中角色被移除/合并＝改表走 Owner 拍板，agent 不得自行扩权。
-6. **规则分发链＝skill 触发（不走全局记忆引用行）**：本规则集以 skill 形态随 isettle/skills 仓库分发；每个 agent MUST 把 `multi-agent-global-agents` 安装进自己的技能目录（Hermes＝`~/.hermes/skills/`；Claude Code＝`~/.claude/skills/`；其它支持 SKILL.md 的 CLI 按该工具约定），由 skill 描述触发词在编码/部署会话开始自动载入规则。规则变更＝分发源改版合 PR，各机技能副本同步拉新；`~/AGENTS.md` 只作该机留底副本（内容从分发源同步），不再是 agent 的加载入口。
+6. **规则分发链＝skill 触发（唯一生效链）**：每个 agent MUST 把 `multi-agent-global-agents` 技能安装进自己的技能目录（Hermes＝`~/.hermes/skills/`；Claude Code＝`~/.claude/skills/`；其它支持 SKILL.md 的 CLI 按该工具约定），由触发词在编码/部署会话开始自动载入本规则。规则变更＝分发源改版合 PR，各机技能副本同步拉新；任何机器本地规则文件/全局记忆副本 MUST NOT 作为加载入口（历史遗留本地文件仅留档，不作真相源）。
 
 ## 2. 项目根目录与路径规则
 

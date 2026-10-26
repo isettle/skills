@@ -30,11 +30,10 @@ metadata:
 
 ## 装到机器（用法）
 
-1. **规则加载链＝skill**：把本技能目录拷进该机每个 agent 的技能目录（Hermes：`cp -R multi-agent-global-agents ~/.hermes/skills/`；Claude Code：`~/.claude/skills/`；其它支持 SKILL.md 的 CLI 按各自约定）——会话开始由触发词自动载入，无需任何"全局记忆引用行"。
-2. 留底副本（可选兜底，非加载入口）：把 `templates/GLOBAL-AGENTS.template.md` 拷到 `~/AGENTS.md`（Linux root＝`/root/AGENTS.md`；macOS＝家目录），供不认 skill 机制的工具人工取读。
-3. 填机器参数：副本 §2 表格里本机的默认项目根（可写真实绝对路径——机内副本是私有位）；§1 花名册行换成实际在册 agent 名。
-4. 接入新 agent＝§1 加一行 + 该 agent 装本 skill + 会话开场自报身份；有项目特殊性再写该仓库 `AGENTS.md` 协作节（细则归项目，全局只管共性）。
-5. 规则更新＝分发源 PR 改版 → 合入后通知各 agent `git pull` ＋ 重拷技能目录（及留底副本）；各机私有副本 MUST NOT 回传分发源。
+1. **规则加载链＝skill（唯一生效链）**：把本技能目录拷进该机每个 agent 的技能目录（Hermes：`cp -R multi-agent-global-agents ~/.hermes/skills/`；Claude Code：`cp -R multi-agent-global-agents ~/.claude/skills/`；其它支持 SKILL.md 的 CLI 按各自约定）——会话开始由触发词自动载入，规则主体＝本技能包内文件（`templates/GLOBAL-AGENTS.template.md` 或经 skill_view 读 SKILL.md 正文）。
+2. 填机器参数：§2 表格里本机的默认项目根、§1 花名册行的实际 agent 名——直接改各机技能副本内文件（属各机私有配置），或经 Owner 在会话里口述生效。
+3. 接入新 agent＝§1 加一行 + 该 agent 装本 skill + 会话开场自报身份；有项目特殊性再写该仓库 `AGENTS.md` 协作节（细则归项目，全局只管共性）。
+4. 规则更新＝分发源 PR 改版 → 合入后通知各 agent `git pull` ＋ 重拷技能目录；各机技能副本的私有参数改动 MUST NOT 回传分发源。
 
 ## 踩坑（实跑验证）
 
