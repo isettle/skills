@@ -65,7 +65,7 @@
 - **G1 原型门禁**：进入 `/speckit-plan` 前，必须验证 `PREVIEW.md` 映射表已覆盖 spec 中所有 US（每个 US 至少有一个原型页面）；缺原型不得进入 plan，更不得进入实现。验证命令：`grep "^### User Story" specs/NNN-*/spec.md` 提取 US 列表，比对 `PREVIEW.md` 页面↔spec 溯源映射表。
 - **G2 文档完整性门禁**：进入 `/speckit-implement` 前，模块必须备齐六件套：`spec.md` + `plan.md` + `tasks.md` + `data-model.md` + `contracts/api.md` + `research.md`（缺任何一件不得开工写码）。
 - **G2' checklist 门禁**：`/speckit-plan` 之后 MUST 跑 `/speckit-checklist`；清单中阻塞项未处置不得进入 `/speckit-tasks`（非阻塞项列入遗留记录）。
-- **DG diff 审批门禁（数据字典与 API 文档修改门禁）**：`data-model.md` 与 `contracts/api.md` 初版定稿（plan 产物经 G2' 验收）后，**任何修改 MUST 先呈 diff、审批通过后才允许落笔**——①代理按条目呈报改动表（编号｜位置｜改前｜改后｜理由｜影响面：代码任务/契约/迁移/原型字段）；②Owner 逐条批复（支持部分批准，仅批准条目落笔；被拒项列待复核，不得下轮静默重提）；③落笔后独立 commit，message 记「DG 第 N 轮批准 #x/#y」；④implement 期间发现须改这两件＝先冻结对应实现任务，DG 过了才续做（契约优先联动）。**首轮生成同样占本门禁（Owner 2026-10-23 拍板，取代旧"首轮豁免"案）**：两文件首版写完＝以「新文件 DG 首轮」呈报（改动表可简化为逐节摘要，全文附后供查），Owner 批复后才算初版定稿；G2' checklist 是质量检查，不替代 DG 拍板。人工直改走 PR 审查（§9.5），本门禁约束代理行为。
+- **DG diff 审批门禁（数据字典与 API 文档门禁）**：`data-model.md` 与 `contracts/api.md` **首版落笔与后续任何修改 MUST 先呈 diff、审批通过后才允许定稿/落笔**——①代理按条目呈报改动表（编号｜位置｜改前｜改后｜理由｜影响面：代码任务/契约/迁移/原型字段）；②Owner 逐条批复（支持部分批准，仅批准条目落笔；被拒项列待复核，不得下轮静默重提）；③落笔后独立 commit，message 记「DG 第 N 轮批准 #x/#y」；④implement 期间发现须改这两件＝先冻结对应实现任务，DG 过了才续做（契约优先联动）。**首轮生成同样占本门禁（Owner 2026-10-23 拍板，取代旧"首轮豁免"案）**：两文件 plan 阶段写完首版＝以「新文件 DG 首轮」呈报（改动表可简化为逐节摘要，全文附后供查），Owner 批复后才算初版定稿；G2' checklist 是质量检查，不替代 DG 拍板。人工直改走 PR 审查（§9.5），本门禁约束代理行为。
 - **G3 收敛门禁**：`/speckit-converge` 必跑且 CONVERGE_REPORT.md 无 major gap（允许 minor gap 但必须显式列出）；标"完成"的模块必须测试全绿 + lint 通过 + spec 条款逐条可对照。
 - **UI-GATE**：见 §6 UI 纪律——仓库根无 `DESIGN.md` 不得写任何前端代码。
 - 未走完 spec + plan + tasks 的模块，**不得开始写实现代码**。
